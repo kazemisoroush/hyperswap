@@ -221,4 +221,16 @@ public class Helpers {
 
         return credit + "C";
     }
+
+    /**
+     * Get true with given probability.
+     *
+     * @param probability percentage.
+     *
+     * @return random boolean with probability.
+     */
+    public static boolean getRandomBooleanWithProbability(double probability) {
+        // return true with input probability...
+        return getRandomNumber(0, 100) <= probability;
+    }
 }
