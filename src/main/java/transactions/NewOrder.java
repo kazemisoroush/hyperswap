@@ -46,11 +46,19 @@ public class NewOrder extends Transaction {
     /**
      * One percent of these transactions must fail.
      */
-    protected boolean failed = Helpers.getRandomBooleanWithProbability(1 / 100);
+    protected boolean transactionFailed = Helpers.getRandomBooleanWithProbability(1 / 100);
 
     public NewOrder() {
         // ...START THE TRANSACTION...
         this.startTransaction();
+
+        // do transaction failure with one percent chance...
+        if (transactionFailed) {
+            this.failTransaction();
+
+            // do not continue...
+            return;
+        }
 
         // select warehouse with input warehouse id...
         this.doSelect("warehouse", new String[]{"w_tax"}, new String[]{"w_id"});
@@ -75,10 +83,15 @@ public class NewOrder extends Transaction {
             // select one item from stocks table...
             this.doSelect("stocks", new String[]{"s_i_id", "s_w_id"}, new String[]{"s_quantity", "s_dist_xx", "s_data"});
 
-            this.doTimesCalculation();
-            // ol_i_id = Helpers.getNonUniformRandomInteger(8191, 1, 100000);
-            // ol_supply_w_id = w_id with probability of 1% otherwise choose randomly from other warehouses...
-            // ol_quantity = Helpers.getRandomInteger(1, 10);
+            // calculate ol_quantity * i_price...
+            this.doTimesCalculation(2);
+
+            // search i_data and s_data for "original" string and fill in brand_generic...
+            this.doStringSearch();
+            this.doStringSearch();
+
+            // insert into order line table...
+            this.doInsert("order_line", 10);
         }
 
         // ...FINISH THE TRANSACTION...

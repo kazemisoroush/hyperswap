@@ -98,4 +98,11 @@ public class Transaction {
     protected void doAddCalculation(int numbersCount) {
         // ...
     }
+
+    /**
+     * Do a string search.
+     */
+    protected void doStringSearch() {
+        // ...
+    }
 }
