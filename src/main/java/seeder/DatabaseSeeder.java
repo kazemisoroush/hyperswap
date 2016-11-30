@@ -47,9 +47,9 @@ public class DatabaseSeeder extends Property {
         }
 
         // check if the database is not seeded yet...
-        //if (this.isSeeded()) {
-        //return;
-        //}
+        if (this.isSeeded()) {
+            return;
+        }
 
         // turn on the database checks...
         this.connector.constraintsOff();
@@ -85,6 +85,11 @@ public class DatabaseSeeder extends Property {
         }
     }
 
+    /**
+     * For testing purpose.
+     *
+     * @param arguments array of inputs.
+     */
     public static void main(String[] arguments) {
         DatabaseSeeder seeder = new DatabaseSeeder();
 
