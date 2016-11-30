@@ -9,7 +9,17 @@ public class TransactionalFunctions {
      * @param columns         which are being selected.
      * @param whereConditions in the query.
      */
-    protected void doSelect(String from, String[] columns, String[] whereConditions) {
+    protected void doSelect(String[] from, String[] columns, String[] whereConditions) {
+        // ...
+    }
+
+    /**
+     * Actions required to insert row into a table.
+     *
+     * @param into         which we are inserting into.
+     * @param columnsCount which are being inserted.
+     */
+    protected void doInsert(String into, int columnsCount) {
         // ...
     }
 
@@ -42,16 +52,6 @@ public class TransactionalFunctions {
      * @param whereConditions in the query.
      */
     protected void doIncrement(String from, String[] columns, String[] whereConditions) {
-        // ...
-    }
-
-    /**
-     * Actions required to insert row into a table.
-     *
-     * @param into         which we are inserting into.
-     * @param columnsCount which are being inserted.
-     */
-    protected void doInsert(String into, int columnsCount) {
         // ...
     }
 

@@ -53,13 +53,13 @@ public class NewOrderTransaction extends Transaction {
      */
     protected void succeedTransaction() {
         // select warehouse with input warehouse id...
-        this.doSelect("warehouse", new String[]{"w_tax"}, new String[]{"w_id"});
+        this.doSelect(new String[]{"warehouse"}, new String[]{"w_tax"}, new String[]{"w_id"});
 
         // select district with input district id...
-        this.doSelect("district", new String[]{"d_tax", "d_next_o_id"}, new String[]{"d_id"});
+        this.doSelect(new String[]{"district"}, new String[]{"d_tax", "d_next_o_id"}, new String[]{"d_id"});
 
         // select customer with input customer id...
-        this.doSelect("customer", new String[]{"c_discount", "c_last", "c_credit"}, new String[]{"c_w_id", "c_d_id", "c_id"});
+        this.doSelect(new String[]{"customer"}, new String[]{"c_discount", "c_last", "c_credit"}, new String[]{"c_w_id", "c_d_id", "c_id"});
 
         // insert into order table...
         this.doInsert("order", 8);
@@ -70,13 +70,15 @@ public class NewOrderTransaction extends Transaction {
         // for each order_line count...
         for (int i = 1; i <= ol_cnt; i++) {
             // select one item from items table...
-            this.doSelect("item", new String[]{"i_id"}, new String[]{"i_price", "i_name", "i_data"});
+            this.doSelect(new String[]{"item"}, new String[]{"i_id"}, new String[]{"i_price", "i_name", "i_data"});
 
             // select one item from stocks table...
-            this.doSelect("stocks", new String[]{"s_i_id", "s_w_id"}, new String[]{"s_quantity", "s_dist_xx", "s_data"});
+            this.doSelect(new String[]{"stocks"}, new String[]{"s_i_id", "s_w_id"}, new String[]{"s_quantity", "s_dist_xx", "s_data"});
 
-            // calculate ol_quantity * i_price...
-            this.doTimesCalculation(2);
+            // do this calculation...
+            // ol_amount = ol_quantity * i_price * (1 + w_tax + d_tax) * (1 - c_discount);
+            this.doAddCalculation(3);
+            this.doTimesCalculation(4);
 
             // search i_data and s_data for "original" string and fill in brand_generic...
             this.doStringSearch();
@@ -91,6 +93,25 @@ public class NewOrderTransaction extends Transaction {
      * New order failed transaction.
      */
     protected void failTransaction() {
+        // select warehouse with input warehouse id...
+        this.doSelect(new String[]{"warehouse"}, new String[]{"w_tax"}, new String[]{"w_id"});
 
+        // select district with input district id...
+        this.doSelect(new String[]{"district"}, new String[]{"d_tax", "d_next_o_id"}, new String[]{"d_id"});
+
+        // select customer with input customer id...
+        this.doSelect(new String[]{"customer"}, new String[]{"c_discount", "c_last", "c_credit"}, new String[]{"c_w_id", "c_d_id", "c_id"});
+
+        // insert into order table...
+        this.doInsert("order", 8);
+
+        // insert into new_order table...
+        this.doInsert("new_orders", 3);
+
+        // for each order_line count...
+        for (int i = 1; i <= ol_cnt; i++) {
+            // select one item from items table...
+            this.doSelect(new String[]{"item"}, new String[]{"i_id"}, new String[]{"i_price", "i_name", "i_data"});
+        }
     }
 }
