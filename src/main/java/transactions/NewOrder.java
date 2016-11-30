@@ -14,6 +14,11 @@ import java.util.Date;
 public class NewOrder extends Transaction {
 
     /**
+     * Probability of transaction to be failed.
+     */
+    protected double failureProbability = 0.01;
+
+    /**
      * Warehouse number for this order. Equal to 1.
      */
     protected int w_id = 1;
@@ -44,22 +49,9 @@ public class NewOrder extends Transaction {
     protected int o_all_local = 1;
 
     /**
-     * One percent of these transactions must fail.
+     * New order successful transaction.
      */
-    protected boolean transactionFailed = Helpers.getRandomBooleanWithProbability(1 / 100);
-
-    public NewOrder() {
-        // ...START THE TRANSACTION...
-        this.startTransaction();
-
-        // do transaction failure with one percent chance...
-        if (transactionFailed) {
-            this.failTransaction();
-
-            // do not continue...
-            return;
-        }
-
+    protected void succeedTransaction() {
         // select warehouse with input warehouse id...
         this.doSelect("warehouse", new String[]{"w_tax"}, new String[]{"w_id"});
 
@@ -93,8 +85,12 @@ public class NewOrder extends Transaction {
             // insert into order line table...
             this.doInsert("order_line", 10);
         }
+    }
 
-        // ...FINISH THE TRANSACTION...
-        this.succeedTransaction();
+    /**
+     * New order failed transaction.
+     */
+    protected void failTransaction() {
+
     }
 }
