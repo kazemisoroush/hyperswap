@@ -11,7 +11,7 @@ import java.util.Date;
  * requirements to satisfy on-line users. This transaction is the backbone of the workload. It is designed to place a
  * variable load on the system to reflect on-line database activity as typically found in production environments.
  */
-public class NewOrder extends Transaction {
+public class NewOrderTransaction extends Transaction {
 
     /**
      * Probability of transaction to be failed.
