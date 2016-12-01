@@ -118,7 +118,9 @@ public class QueryBuilder {
      *
      * @return this to continue chaining.
      */
-    public QueryBuilder update() {
+    public QueryBuilder update(String table) {
+        this.tables.add(table);
+
         this.queryType = QueryType.UPDATE;
 
         return this;

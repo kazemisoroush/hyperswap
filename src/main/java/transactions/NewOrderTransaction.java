@@ -118,6 +118,12 @@ public class NewOrderTransaction extends Transaction {
                 // order line quantity is randomly selected between [1 ... 10]...
                 int ol_quantity = Helpers.getRandomInteger(1, 10);
 
+                // do an update on stock...
+                this.update("stock")
+                    .set("s_order_cnt", "s_order_cnt + 1")
+                    .set("s_ytd", "s_ytd + " + ol_quantity)
+                    .where("s_i_id", "=", i_id + "").where("s_w_id", "=", this.w_id + "").save();
+
                 // do this calculation...
                 double ol_amount = ol_quantity * i_price * (1 + w_tax + d_tax) * (1 - c_discount);
 
@@ -189,6 +195,11 @@ public class NewOrderTransaction extends Transaction {
         return Helpers.getRandomBooleanWithProbability(failureProbability);
     }
 
+    /**
+     * Execute this transaction for testing purposes.
+     *
+     * @param arguments from console.
+     */
     public static void main(String[] arguments) {
         NewOrderTransaction transaction = new NewOrderTransaction();
 
