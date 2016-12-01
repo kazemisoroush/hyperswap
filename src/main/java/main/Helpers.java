@@ -233,4 +233,28 @@ public class Helpers {
         // return true with input probability...
         return getRandomNumber(0, 100) <= probability;
     }
+
+    /**
+     * Add padding to the number and return the number in string format.
+     *
+     * @param number             which needs to be pad.
+     * @param numberOfCharacters number of characters in resulting string.
+     *
+     * @return pad string.
+     */
+    public static String parWithZero(int number, int numberOfCharacters) {
+        String result = number + "";
+
+        // handle invalid inputs or no padding required conditions...
+        if (result.length() >= numberOfCharacters) {
+            return result;
+        }
+
+        // pad zeros at the left side of resulting number string...
+        for (int i = 0; i < numberOfCharacters - result.length(); i++) {
+            result = "0" + result;
+        }
+
+        return result;
+    }
 }
