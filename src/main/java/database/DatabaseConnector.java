@@ -3,6 +3,7 @@ package database;
 import main.Property;
 
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DatabaseConnector extends Property {
 
@@ -190,4 +191,59 @@ public class DatabaseConnector extends Property {
         return insertedId;
     }
 
+    /**
+     * @param query to be executed.
+     *
+     * @return result of the query.
+     */
+    public int update(String query) {
+        return this.insert(query);
+    }
+
+    /**
+     * @param query to be executed.
+     *
+     * @return result of the query.
+     */
+    public int delete(String query) {
+        return this.insert(query);
+    }
+
+    /**
+     * Execute the select query with input columns size in selection.
+     *
+     * @param query       string to be executed.
+     * @param columnsSize of retrieval result.
+     *
+     * @return the two dimensional array of result.
+     */
+    public ArrayList<ArrayList<String>> select(String query, int columnsSize) {
+        // make the result array...
+        ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
+
+        try {
+            // instantiate an executable statement...
+            Statement statement = this.connection.createStatement();
+
+            // execute the query...
+            ResultSet sqlResult = statement.executeQuery(query);
+
+            // fill in the array with sql result...
+            // make the two dimensional array of result...
+            while (sqlResult.next()) {
+                ArrayList<String> row = new ArrayList<String>();
+
+                // make the row of results...
+                for (int j = 1; j <= columnsSize; j++) {
+                    row.add(sqlResult.getString(j));
+                }
+
+                result.add(row);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
 }

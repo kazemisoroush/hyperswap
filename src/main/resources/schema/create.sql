@@ -79,9 +79,9 @@ CREATE TABLE history (
 )
   ENGINE = InnoDB;
 
-DROP TABLE IF EXISTS new_orders;
+DROP TABLE IF EXISTS new_order;
 
-CREATE TABLE new_orders (
+CREATE TABLE new_order (
   no_o_id INT      NOT NULL,
   no_d_id TINYINT  NOT NULL,
   no_w_id SMALLINT NOT NULL,

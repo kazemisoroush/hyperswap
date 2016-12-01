@@ -164,25 +164,7 @@ public class Loader extends Property {
                 String s_data = Helpers.getRandomStringWithOriginal(26, 50, 0.1);
 
                 // insert stock...
-                connector.insert("insert into stock values (" +
-                        s_i_id + ", " +
-                        s_w_id + ", " +
-                        s_quantity + ", " +
-                        "'" + s_dist_01 + "', " +
-                        "'" + s_dist_02 + "', " +
-                        "'" + s_dist_03 + "', " +
-                        "'" + s_dist_04 + "', " +
-                        "'" + s_dist_05 + "', " +
-                        "'" + s_dist_06 + "', " +
-                        "'" + s_dist_07 + "', " +
-                        "'" + s_dist_08 + "', " +
-                        "'" + s_dist_09 + "', " +
-                        "'" + s_dist_10 + "', " +
-                        s_ytd + ", " +
-                        s_order_cnt + ", " +
-                        s_remote_cnt + ", " +
-                        "'" + s_data + "'" +
-                        ")");
+                connector.insert("insert into stock values (" + s_i_id + ", " + s_w_id + ", " + s_quantity + ", " + "'" + s_dist_01 + "', " + "'" + s_dist_02 + "', " + "'" + s_dist_03 + "', " + "'" + s_dist_04 + "', " + "'" + s_dist_05 + "', " + "'" + s_dist_06 + "', " + "'" + s_dist_07 + "', " + "'" + s_dist_08 + "', " + "'" + s_dist_09 + "', " + "'" + s_dist_10 + "', " + s_ytd + ", " + s_order_cnt + ", " + s_remote_cnt + ", " + "'" + s_data + "'" + ")");
             }
         }
 
@@ -210,19 +192,7 @@ public class Loader extends Property {
             double d_tax = Helpers.getRandomNumber(0.1, 0.2);
 
             // insert districts...
-            connector.insert("insert into district values (" +
-                    d_id + ", " +
-                    d_w_id + ", " +
-                    "'" + d_name + "', " +
-                    "'" + d_street_1 + "', " +
-                    "'" + d_street_2 + "', " +
-                    "'" + d_city + "', " +
-                    "'" + d_state + "', " +
-                    "'" + d_zip + "', " +
-                    d_tax + ", " +
-                    d_ytd + ", " +
-                    d_next_o_id +
-                    ")");
+            connector.insert("insert into district values (" + d_id + ", " + d_w_id + ", " + "'" + d_name + "', " + "'" + d_street_1 + "', " + "'" + d_street_2 + "', " + "'" + d_city + "', " + "'" + d_state + "', " + "'" + d_zip + "', " + d_tax + ", " + d_ytd + ", " + d_next_o_id + ")");
 
             // load customers of this district...
             this.loadCustomers(d_id, d_w_id);
@@ -263,29 +233,7 @@ public class Loader extends Property {
             String c_data = Helpers.getRandomStringWithOriginal(300, 500, 0.1);
 
             // insert the customer...
-            connector.insert("insert into customer values (" +
-                    c_id + ", " +
-                    c_d_id + ", " +
-                    c_w_id + ", " +
-                    "'" + c_first + "', " +
-                    "'" + c_middle + "', " +
-                    "'" + c_last + "', " +
-                    "'" + c_street_1 + "', " +
-                    "'" + c_street_2 + "', " +
-                    "'" + c_city + "', " +
-                    "'" + c_state + "', " +
-                    "'" + c_zip + "', " +
-                    "'" + c_phone + "', " +
-                    c_since + ", " +
-                    "'" + c_credit + "', " +
-                    c_credit_lim + ", " +
-                    c_discount + ", " +
-                    c_balance + ", " +
-                    c_ytd_payment + ", " +
-                    c_payment_cnt + ", " +
-                    c_delivery_cnt + ", " +
-                    "'" + c_data + "'" +
-                    ")");
+            connector.insert("insert into customer values (" + c_id + ", " + c_d_id + ", " + c_w_id + ", " + "'" + c_first + "', " + "'" + c_middle + "', " + "'" + c_last + "', " + "'" + c_street_1 + "', " + "'" + c_street_2 + "', " + "'" + c_city + "', " + "'" + c_state + "', " + "'" + c_zip + "', " + "'" + c_phone + "', " + c_since + ", " + "'" + c_credit + "', " + c_credit_lim + ", " + c_discount + ", " + c_balance + ", " + c_ytd_payment + ", " + c_payment_cnt + ", " + c_delivery_cnt + ", " + "'" + c_data + "'" + ")");
 
             // load orders for this customer...
             this.loadOrders(c_id, c_d_id, c_w_id);
@@ -316,16 +264,8 @@ public class Loader extends Property {
             int o_all_local = 1;
 
             // insert orders...
-            int order_id = connector.insert("insert into orders values (" +
-                    "default, " + // o_id + ", " +
-                    o_d_id + ", " +
-                    o_w_id + ", " +
-                    o_c_id + ", " +
-                    "'" + o_entry_d + "', " +
-                    o_carrier_id + ", " +
-                    o_ol_cnt + ", " +
-                    o_all_local +
-                    ")");
+            int order_id = connector.insert("insert into orders values (" + "default, " + // o_id + ", " +
+                                                    o_d_id + ", " + o_w_id + ", " + o_c_id + ", " + "'" + o_entry_d + "', " + o_carrier_id + ", " + o_ol_cnt + ", " + o_all_local + ")");
 
             // load order lines for this order...
             this.loadOrderLines(order_id, o_d_id, o_w_id);
@@ -355,16 +295,8 @@ public class Loader extends Property {
             String h_data = Helpers.getRandomStringAlphabetic(12, 24);
 
             // insert history...
-            connector.insert("insert into history values (" +
-                    "default, " + // h_c_id + ", " +
-                    h_d_id + ", " +
-                    h_w_id + ", " +
-                    h_d_id + ", " +
-                    h_w_id + ", " +
-                    "'" + h_date + "', " +
-                    h_amount + ", " +
-                    "'" + h_data + "' " +
-                    ")");
+            connector.insert("insert into history values (" + "default, " + // h_c_id + ", " +
+                                     h_d_id + ", " + h_w_id + ", " + h_d_id + ", " + h_w_id + ", " + "'" + h_date + "', " + h_amount + ", " + "'" + h_data + "' " + ")");
         }
 
         System.out.println("Histories loaded for customer...");
@@ -390,18 +322,7 @@ public class Loader extends Property {
             String ol_dist_info = Helpers.getRandomStringAlphabetic(24, 24);
 
             // insert order line...
-            connector.insert("insert into order_line values (" +
-                    ol_o_id + ", " +
-                    ol_d_id + ", " +
-                    ol_w_id + ", " +
-                    ol_id + ", " +
-                    ol_i_id + ", " +
-                    ol_supply_w_id + ", " +
-                    ol_delivery_d + ", " +
-                    ol_quantity + ", " +
-                    ol_amount + ", " +
-                    "'" + ol_dist_info + "'" +
-                    ")");
+            connector.insert("insert into order_line values (" + ol_o_id + ", " + ol_d_id + ", " + ol_w_id + ", " + ol_id + ", " + ol_i_id + ", " + ol_supply_w_id + ", " + ol_delivery_d + ", " + ol_quantity + ", " + ol_amount + ", " + "'" + ol_dist_info + "'" + ")");
         }
 
         System.out.println("Order lines loaded for each order...");
@@ -418,11 +339,7 @@ public class Loader extends Property {
         // create new orders...
         for (int ol_id = 1; ol_id <= this.newOrdersPerOrder; ol_id++) {
             // insert new order...
-            connector.insert("insert into new_orders values (" +
-                    no_o_id + ", " +
-                    no_d_id + ", " +
-                    no_w_id +
-                    ")");
+            connector.insert("insert into new_order values (" + no_o_id + ", " + no_d_id + ", " + no_w_id + ")");
         }
 
         System.out.println("New orders loaded for each order...");

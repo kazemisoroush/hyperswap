@@ -1,6 +1,8 @@
 package transactions;
 
-public abstract class Transaction extends TransactionalFunctions {
+import database.QueryBuilder;
+
+public abstract class Transaction extends QueryBuilder {
 
     /**
      * One percent of these transactions must fail.
@@ -16,6 +18,9 @@ public abstract class Transaction extends TransactionalFunctions {
      * Instantiate new transaction instance.
      */
     public Transaction() {
+    }
+
+    public void process() {
         // ...START THE TRANSACTION...
         this.startTransaction();
 
@@ -32,8 +37,6 @@ public abstract class Transaction extends TransactionalFunctions {
             // do success jobs...
             this.succeedTransaction();
         }
-
-        return this.status;
     }
 
     /**
