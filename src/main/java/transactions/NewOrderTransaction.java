@@ -151,7 +151,6 @@ public class NewOrderTransaction extends Transaction {
      */
     protected void failTransaction() {
         try {
-            // select warehouse with input warehouse id...
             this.select("w_tax")
                 .from("warehouse")
                 .where("w_id", "=", this.w_id + "").get();
@@ -184,7 +183,7 @@ public class NewOrderTransaction extends Transaction {
      */
     protected boolean isTransactionFailed() {
         // one percent chance...
-        double failureProbability = 0;
+        double failureProbability = 0.01;
 
         // check if transaction is going to fail or not...
         return Helpers.getRandomBooleanWithProbability(failureProbability);

@@ -231,7 +231,7 @@ public class Helpers {
      */
     public static boolean getRandomBooleanWithProbability(double probability) {
         // return true with input probability...
-        return getRandomNumber(0, 100) <= probability;
+        return getRandomNumber(0, 1) <= probability;
     }
 
     /**
