@@ -14,11 +14,6 @@ import java.util.Date;
 public class NewOrderTransaction extends Transaction {
 
     /**
-     * Probability of transaction to be failed.
-     */
-    protected double failureProbability = 0.01;
-
-    /**
      * Warehouse number for this order. Equal to 1.
      */
     protected int w_id = 1;
@@ -87,6 +82,19 @@ public class NewOrderTransaction extends Transaction {
             // insert into order line table...
             this.doInsert("order_line", 10);
         }
+    }
+
+    /**
+     * This type of transaction fails with probability of one percent.
+     *
+     * @return boolean condition of failure.
+     */
+    protected boolean isTransactionFailed() {
+        // one percent chance...
+        double failureProbability = 0.01;
+
+        // check if transaction is going to fail or not...
+        return Helpers.getRandomBooleanWithProbability(failureProbability);
     }
 
     /**

@@ -1,7 +1,5 @@
 package transactions;
 
-import main.Helpers;
-
 public abstract class Transaction extends TransactionalFunctions {
 
     /**
@@ -17,14 +15,11 @@ public abstract class Transaction extends TransactionalFunctions {
     /**
      * Instantiate new transaction instance.
      */
-    public Transaction() {
+    public Status process() {
         // ...START THE TRANSACTION...
         this.startTransaction();
 
-        // check if transaction is going to fail or not...
-        boolean transactionFailed = Helpers.getRandomBooleanWithProbability(this.failureProbability);
-
-        if (transactionFailed) {
+        if (this.isTransactionFailed()) {
             // change the transaction status to proper state...
             this.status = Status.FAILED;
 
@@ -37,6 +32,8 @@ public abstract class Transaction extends TransactionalFunctions {
             // do success jobs...
             this.succeedTransaction();
         }
+
+        return this.status;
     }
 
     /**
@@ -55,5 +52,12 @@ public abstract class Transaction extends TransactionalFunctions {
      * Succeed the transaction.
      */
     protected abstract void succeedTransaction();
+
+    /**
+     * Check if the transaction is failed.
+     *
+     * @return boolean condition of failure.
+     */
+    protected abstract boolean isTransactionFailed();
 
 }
