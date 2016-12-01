@@ -15,7 +15,7 @@ public abstract class Transaction extends TransactionalFunctions {
     /**
      * Instantiate new transaction instance.
      */
-    public Status process() {
+    public Transaction() {
         // ...START THE TRANSACTION...
         this.startTransaction();
 
