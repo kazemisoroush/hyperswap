@@ -27,7 +27,7 @@ public class NewOrderTransaction extends Transaction {
     /**
      * Customer identifier is selected using non-uniform random function.
      */
-    protected int c_id = Helpers.getNonUniformRandomInteger(1023, 1, 3000);
+    protected int c_id = Helpers.getRandomInteger(1, 3);
 
     /**
      * The number of items in the order, is randomly selected within [5 .. 15].
@@ -75,12 +75,12 @@ public class NewOrderTransaction extends Transaction {
                          .where("c_w_id", "=", this.w_id + "").where("c_d_id", "=", this.d_id + "").where("c_id", "=", this.c_id + "").get();
 
             double c_discount = Double.parseDouble(result.get(0).get(0));
-            double c_last = Double.parseDouble(result.get(0).get(1));
-            double c_credit = Double.parseDouble(result.get(0).get(2));
+            String c_last = result.get(0).get(1);
+            String c_credit = result.get(0).get(2);
 
             // insert into order table...
-            int o_id = this.insert().into("order")
-                           .values("default", this.d_id + "", this.w_id + "", this.c_id + "", this.o_entry_d, this.o_carrier_id + "", ol_cnt + "", "1")
+            int o_id = this.insert().into("orders")
+                           .values("default", this.d_id + "", this.w_id + "", this.c_id + "", "'" + this.o_entry_d + "'", this.o_carrier_id + "", ol_cnt + "", "1")
                            .save();
 
             // insert into new_order table...
@@ -132,7 +132,7 @@ public class NewOrderTransaction extends Transaction {
 
                 // insert into order line table...
                 this.insert().into("order_line")
-                    .values(o_id + "", this.d_id + "", this.w_id + "", ol_number + "", i_id + "", this.w_id + "", "", ol_quantity + "", ol_amount + "", s_dist)
+                    .values(o_id + "", this.d_id + "", this.w_id + "", ol_number + "", i_id + "", this.w_id + "", "null", ol_quantity + "", ol_amount + "", "'" + s_dist + "'")
                     .save();
 
                 // sum the amounts...

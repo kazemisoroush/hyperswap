@@ -144,6 +144,8 @@ public class QueryBuilder {
             this.query = this.queryType + " into " + Helpers.implode(this.tables, ", ") +
                     " values (" + Helpers.implode(this.values, ", ") + ")";
 
+            System.out.println(this.query);
+
             result = this.connector.insert(this.query);
         } else if (this.queryType == QueryType.UPDATE) {
             // make the query string for update queries...
