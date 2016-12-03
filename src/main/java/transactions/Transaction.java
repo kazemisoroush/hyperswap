@@ -1,8 +1,8 @@
 package transactions;
 
-import database.QueryBuilder;
+import database.Model;
 
-public abstract class Transaction extends QueryBuilder {
+public abstract class Transaction extends Model {
 
     /**
      * Status of this transaction.

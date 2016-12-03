@@ -5,7 +5,7 @@ import main.Helpers;
 
 import java.util.ArrayList;
 
-public class QueryBuilder extends TransactionLogger {
+public class Model extends TransactionLogger {
 
     /**
      * Resulting query string.
@@ -55,7 +55,7 @@ public class QueryBuilder extends TransactionLogger {
     /**
      * Instantiate new instance of query builder.
      */
-    public QueryBuilder() {
+    public Model() {
         // clean up the query builder...
         this.cleanUp();
 
@@ -89,7 +89,7 @@ public class QueryBuilder extends TransactionLogger {
      *
      * @return this to continue chaining.
      */
-    public QueryBuilder select(String... columns) {
+    public Model select(String... columns) {
         this.queryType = QueryType.SELECT;
 
         for (String column : columns) {
@@ -104,7 +104,7 @@ public class QueryBuilder extends TransactionLogger {
      *
      * @return this to continue chaining.
      */
-    public QueryBuilder insert() {
+    public Model insert() {
         this.queryType = QueryType.INSERT;
 
         return this;
@@ -115,7 +115,7 @@ public class QueryBuilder extends TransactionLogger {
      *
      * @return this to continue chaining.
      */
-    public QueryBuilder delete() {
+    public Model delete() {
         this.queryType = QueryType.DELETE;
 
         return this;
@@ -126,7 +126,7 @@ public class QueryBuilder extends TransactionLogger {
      *
      * @return this to continue chaining.
      */
-    public QueryBuilder update(String table) {
+    public Model update(String table) {
         this.tables.add(table);
 
         this.queryType = QueryType.UPDATE;
@@ -141,7 +141,7 @@ public class QueryBuilder extends TransactionLogger {
      *
      * @return this to continue chaining.
      */
-    public QueryBuilder from(String... tables) {
+    public Model from(String... tables) {
         for (String table : tables) {
             this.tables.add(table);
         }
@@ -156,7 +156,7 @@ public class QueryBuilder extends TransactionLogger {
      *
      * @return this to continue chaining.
      */
-    public QueryBuilder into(String table) {
+    public Model into(String table) {
         this.tables.add(table);
 
         return this;
@@ -170,7 +170,7 @@ public class QueryBuilder extends TransactionLogger {
      *
      * @return this to continue chaining.
      */
-    public QueryBuilder set(String column, String value) {
+    public Model set(String column, String value) {
         // make the set statement and add it to set array...
         this.set.add(column + " = " + value);
 
@@ -184,7 +184,7 @@ public class QueryBuilder extends TransactionLogger {
      *
      * @return this to continue chaining.
      */
-    public QueryBuilder values(String... columns) {
+    public Model values(String... columns) {
         // add the value to the list of values...
         for (String column : columns) {
             this.values.add(column);
@@ -202,7 +202,7 @@ public class QueryBuilder extends TransactionLogger {
      *
      * @return this to continue chaining.
      */
-    public QueryBuilder where(String column, String equality, String value) {
+    public Model where(String column, String equality, String value) {
         // add the where clause...
         this.whereConditions.add(column + " " + equality + " " + value);
 
