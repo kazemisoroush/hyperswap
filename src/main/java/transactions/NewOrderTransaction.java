@@ -57,36 +57,37 @@ public class NewOrderTransaction extends Transaction {
 
         // select warehouse with input warehouse id...
         try {
-            result = this.select("w_tax")
-                         .from("warehouse")
-                         .where("w_id", "=", this.w_id + "").get();
+            result = this.model.select("w_tax")
+                               .from("warehouse")
+                               .where("w_id", "=", this.w_id + "").get();
 
             double w_tax = Double.parseDouble(result.get(0).get(0));
 
             // select district with input district id...
-            result = this.select("d_tax", "d_next_o_id").from("district")
-                         .where("d_id", "=", this.d_id + "").get();
+            result = this.model.select("d_tax", "d_next_o_id").from("district")
+                               .where("d_id", "=", this.d_id + "").get();
 
             double d_tax = Double.parseDouble(result.get(0).get(0));
             int d_next_o_id = Integer.parseInt(result.get(0).get(1));
 
             // select customer with input customer id...
-            result = this.select("c_discount", "c_last", "c_credit").from("customer")
-                         .where("c_w_id", "=", this.w_id + "").where("c_d_id", "=", this.d_id + "").where("c_id", "=", this.c_id + "").get();
+            result = this.model.select("c_discount", "c_last", "c_credit").from("customer")
+                               .where("c_w_id", "=", this.w_id + "").where("c_d_id", "=", this.d_id + "")
+                               .where("c_id", "=", this.c_id + "").get();
 
             double c_discount = Double.parseDouble(result.get(0).get(0));
             String c_last = result.get(0).get(1);
             String c_credit = result.get(0).get(2);
 
             // insert into order table...
-            int o_id = this.insert().into("orders")
-                           .values("default", this.d_id + "", this.w_id + "", this.c_id + "", "'" + this.o_entry_d + "'", this.o_carrier_id + "", ol_cnt + "", "1")
-                           .save();
+            int o_id = this.model.insert().into("orders")
+                                 .values("default", this.d_id + "", this.w_id + "", this.c_id + "", "'" + this.o_entry_d + "'", this.o_carrier_id + "", ol_cnt + "", "1")
+                                 .save();
 
             // insert into new_order table...
-            this.insert().into("new_order")
-                .values(o_id + "", this.d_id + "", this.w_id + "")
-                .save();
+            this.model.insert().into("new_order")
+                      .values(o_id + "", this.d_id + "", this.w_id + "")
+                      .save();
 
             double amountSum = 0;
 
@@ -96,8 +97,8 @@ public class NewOrderTransaction extends Transaction {
                 int i_id = Helpers.getNonUniformRandomInteger(8191, 1, 100000);
 
                 // select one item from items table...
-                result = this.select("i_price", "i_name", "i_data").from("item")
-                             .where("i_id", "=", i_id + "").get();
+                result = this.model.select("i_price", "i_name", "i_data").from("item")
+                                   .where("i_id", "=", i_id + "").get();
 
                 double i_price = Double.parseDouble(result.get(0).get(0));
                 String i_name = result.get(0).get(1);
@@ -107,9 +108,9 @@ public class NewOrderTransaction extends Transaction {
                 String s_dist_column = "s_dist_" + Helpers.parWithZero(this.d_id, 2);
 
                 // select one item from stocks table...
-                result = this.select("s_quantity", s_dist_column, "s_data")
-                             .from("stock")
-                             .where("s_i_id", "=", i_id + "").where("s_w_id", "=", this.w_id + "").get();
+                result = this.model.select("s_quantity", s_dist_column, "s_data")
+                                   .from("stock")
+                                   .where("s_i_id", "=", i_id + "").where("s_w_id", "=", this.w_id + "").get();
 
                 int s_quantity = Integer.parseInt(result.get(0).get(0));
                 String s_dist = result.get(0).get(1);
@@ -119,10 +120,10 @@ public class NewOrderTransaction extends Transaction {
                 int ol_quantity = Helpers.getRandomInteger(1, 10);
 
                 // do an update on stock...
-                this.update("stock")
-                    .set("s_order_cnt", "s_order_cnt + 1")
-                    .set("s_ytd", "s_ytd + " + ol_quantity)
-                    .where("s_i_id", "=", i_id + "").where("s_w_id", "=", this.w_id + "").save();
+                this.model.update("stock")
+                          .set("s_order_cnt", "s_order_cnt + 1")
+                          .set("s_ytd", "s_ytd + " + ol_quantity)
+                          .where("s_i_id", "=", i_id + "").where("s_w_id", "=", this.w_id + "").save();
 
                 // do this calculation...
                 double ol_amount = ol_quantity * i_price * (1 + w_tax + d_tax) * (1 - c_discount);
@@ -137,9 +138,9 @@ public class NewOrderTransaction extends Transaction {
                 }
 
                 // insert into order line table...
-                this.insert().into("order_line")
-                    .values(o_id + "", this.d_id + "", this.w_id + "", ol_number + "", i_id + "", this.w_id + "", "null", ol_quantity + "", ol_amount + "", "'" + s_dist + "'")
-                    .save();
+                this.model.insert().into("order_line")
+                          .values(o_id + "", this.d_id + "", this.w_id + "", ol_number + "", i_id + "", this.w_id + "", "null", ol_quantity + "", ol_amount + "", "'" + s_dist + "'")
+                          .save();
 
                 // sum the amounts...
                 amountSum += ol_amount;
@@ -157,17 +158,18 @@ public class NewOrderTransaction extends Transaction {
      */
     protected void failTransaction() {
         try {
-            this.select("w_tax")
-                .from("warehouse")
-                .where("w_id", "=", this.w_id + "").get();
+            this.model.select("w_tax")
+                      .from("warehouse")
+                      .where("w_id", "=", this.w_id + "").get();
 
             // select district with input district id...
-            this.select("d_tax", "d_next_o_id").from("district")
-                .where("d_id", "=", this.d_id + "").get();
+            this.model.select("d_tax", "d_next_o_id").from("district")
+                      .where("d_id", "=", this.d_id + "").get();
 
             // select customer with input customer id...
-            this.select("c_discount", "c_last", "c_credit").from("customer")
-                .where("c_w_id", "=", this.w_id + "").where("c_d_id", "=", this.d_id + "").where("c_id", "=", this.c_id + "").get();
+            this.model.select("c_discount", "c_last", "c_credit").from("customer")
+                      .where("c_w_id", "=", this.w_id + "").where("c_d_id", "=", this.d_id + "")
+                      .where("c_id", "=", this.c_id + "").get();
 
             // for each order_line count...
             for (int i = 1; i <= ol_cnt; i++) {
@@ -175,8 +177,8 @@ public class NewOrderTransaction extends Transaction {
                 int i_id = Helpers.getNonUniformRandomInteger(8191, 1, 100000);
 
                 // select one item from items table...
-                this.select("i_price", "i_name", "i_data").from("item")
-                    .where("i_id", "=", i_id + "").get();
+                this.model.select("i_price", "i_name", "i_data").from("item")
+                          .where("i_id", "=", i_id + "").get();
             }
         } catch (IncorrectQueryExecution e) {
         }

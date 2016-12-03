@@ -50,7 +50,7 @@ public class Model extends TransactionLogger {
     /**
      * Rows which we modified so far.
      */
-    protected ArrayList<String> modifiedRows;
+    public ArrayList<String> modifiedRows;
 
     /**
      * Instantiate new instance of query builder.

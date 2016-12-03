@@ -1,8 +1,19 @@
 package transactions;
 
 import database.Model;
+import database.TransactionLogger;
 
-public abstract class Transaction extends Model {
+public abstract class Transaction {
+
+    /**
+     * Transaction model here it is.
+     */
+    protected Model model = new Model();
+
+    /**
+     * Some logger to log the transaction as we need.
+     */
+    protected TransactionLogger logger = new TransactionLogger();
 
     /**
      * Status of this transaction.
@@ -23,7 +34,7 @@ public abstract class Transaction extends Model {
         // ...START THE TRANSACTION...
         this.status = Status.PROCESSING;
 
-        this.beginTransactionLogging();
+        this.logger.beginTransactionLogging();
 
         if (this.isTransactionFailed()) {
             // change the transaction status to proper state...
@@ -39,7 +50,7 @@ public abstract class Transaction extends Model {
             this.succeedTransaction();
         }
 
-        this.finishTransactionLogging();
+        this.logger.finishTransactionLogging(this.model.modifiedRows);
     }
 
     /**
