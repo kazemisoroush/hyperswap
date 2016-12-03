@@ -166,7 +166,7 @@ public class DatabaseConnector extends Property {
      * @return result of the query.
      */
     public int insert(String query) {
-        int insertedId = - 1;
+        int insertedId = - 2;
 
         try {
             // instantiate an executable statement...
@@ -246,4 +246,49 @@ public class DatabaseConnector extends Property {
 
         return result;
     }
+
+    /**
+     * Find the primary key set for given table names.
+     *
+     * @param tables name which we need the list of primary keys.
+     *
+     * @return list of primary keys.
+     */
+    public ArrayList getPrimaryKeys(ArrayList<String> tables) {
+        ArrayList<String> keys = new ArrayList<String>();
+
+        // collect keys for each table...
+        for (String table : tables) {
+            keys.addAll(this.getPrimaryKey(table));
+        }
+
+        return keys;
+    }
+
+    /**
+     * Find the primary key set for given table name.
+     *
+     * @param table name which we need the list of primary keys.
+     *
+     * @return list of primary keys.
+     */
+    public ArrayList<String> getPrimaryKey(String table) {
+        ArrayList<String> keys = new ArrayList<String>();
+
+        // select set of primary keys...
+        String sql = "select column_name " +
+                "from `information_schema`.columns " +
+                "where column_key like 'PRI' " +
+                "and table_name like '" + table + "'";
+
+        ArrayList<ArrayList<String>> result = this.select(sql, 1);
+
+        // add the key names to the result...
+        for (ArrayList<String> row : result) {
+            keys.addAll(row);
+        }
+
+        return keys;
+    }
+
 }

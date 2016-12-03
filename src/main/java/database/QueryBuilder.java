@@ -5,7 +5,7 @@ import main.Helpers;
 
 import java.util.ArrayList;
 
-public class QueryBuilder {
+public class QueryBuilder extends TransactionLogger {
 
     /**
      * Resulting query string.
@@ -48,6 +48,11 @@ public class QueryBuilder {
     protected DatabaseConnector connector;
 
     /**
+     * Rows which we modified so far.
+     */
+    protected ArrayList<String> modifiedRows;
+
+    /**
      * Instantiate new instance of query builder.
      */
     public QueryBuilder() {
@@ -56,6 +61,9 @@ public class QueryBuilder {
 
         // make the database connection...
         this.connector = new DatabaseConnector();
+
+        // empty the modified rows...
+        this.modifiedRows = new ArrayList<String>();
 
         // connect the database connector...
         this.connector.connect();
@@ -221,7 +229,7 @@ public class QueryBuilder {
         // execute the query and return the result...
         ArrayList<ArrayList<String>> result = this.connector.select(this.query, this.columns.size());
 
-        System.out.println(this.query);
+        this.collectModifiedRows();
 
         // clean up the query builder...
         this.cleanUp();
@@ -248,20 +256,24 @@ public class QueryBuilder {
             this.query = this.queryType + " into " + Helpers.implode(this.tables, ", ") +
                     " values (" + Helpers.implode(this.values, ", ") + ")";
 
-            System.out.println(this.query);
+            // ArrayList keys = this.connector.getPrimaryKey(this.tables.get(0));
 
             result = this.connector.insert(this.query);
         } else if (this.queryType == QueryType.UPDATE) {
             // make the query string for update queries...
             this.query = this.queryType + " " + Helpers.implode(this.tables, ", ") +
                     " set " + Helpers.implode(this.set, ", ") +
-                    " where " + Helpers.implode(this.whereConditions, ", ");
+                    " where " + Helpers.implode(this.whereConditions, " and ");
+
+            this.collectModifiedRows();
 
             result = this.connector.update(this.query);
         } else {
             // make the query string for delete queries...
             this.query = this.queryType + " from " + Helpers.implode(this.tables, ", ") +
-                    " where " + Helpers.implode(this.whereConditions, ", ");
+                    " where " + Helpers.implode(this.whereConditions, " and ");
+
+            this.collectModifiedRows();
 
             result = this.connector.delete(this.query);
         }
@@ -270,6 +282,34 @@ public class QueryBuilder {
         this.cleanUp();
 
         return result;
+    }
+
+    /**
+     * Automatically select primary keys of the query table and concat it with table name and make an alias for modified
+     * rows and add it to global array of modified rows.
+     */
+    private void collectModifiedRows() {
+        for (String table : this.tables) {
+            // select primary keys...
+            ArrayList keys = this.connector.getPrimaryKey(table);
+
+            // make the select part of query...
+            String selectPart = Helpers.implode(keys, ", ");
+
+            // select the primary keys for the modified rows of the table...
+            String query = "select " + selectPart + " from " + table + " where " + Helpers.implode(this.whereConditions, " and ");
+
+            ArrayList<ArrayList<String>> rows = this.connector.select(query, keys.size());
+
+            for (ArrayList<String> row : rows) {
+                String rowIdentifier = table + "-" + Helpers.implode(row, "-");
+
+                // add the row identifier to modified rows...
+                if (! this.modifiedRows.contains(rowIdentifier)) {
+                    this.modifiedRows.add(rowIdentifier);
+                }
+            }
+        }
     }
 
 }

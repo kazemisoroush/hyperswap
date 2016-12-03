@@ -5,11 +5,6 @@ import database.QueryBuilder;
 public abstract class Transaction extends QueryBuilder {
 
     /**
-     * One percent of these transactions must fail.
-     */
-    protected double failureProbability;
-
-    /**
      * Status of this transaction.
      */
     protected Status status = Status.QUEUED;
@@ -18,11 +13,17 @@ public abstract class Transaction extends QueryBuilder {
      * Instantiate new transaction instance.
      */
     public Transaction() {
+        // ...
     }
 
+    /**
+     * Start transaction process.
+     */
     public void process() {
         // ...START THE TRANSACTION...
-        this.startTransaction();
+        this.status = Status.PROCESSING;
+
+        this.beginTransactionLogging();
 
         if (this.isTransactionFailed()) {
             // change the transaction status to proper state...
@@ -37,13 +38,8 @@ public abstract class Transaction extends QueryBuilder {
             // do success jobs...
             this.succeedTransaction();
         }
-    }
 
-    /**
-     * Start the transaction.
-     */
-    protected void startTransaction() {
-        this.status = Status.PROCESSING;
+        this.finishTransactionLogging();
     }
 
     /**
