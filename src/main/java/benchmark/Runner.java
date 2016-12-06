@@ -1,7 +1,24 @@
 package benchmark;
 
-public interface Runner {
+abstract public class Runner {
 
-    String run();
+    int iterations = 10;
 
+    protected long start;
+
+    protected long end;
+
+    abstract long run();
+
+    protected void startClock() {
+        this.start = System.nanoTime();
+    }
+
+    protected void endClock() {
+        this.end = System.nanoTime();
+    }
+
+    protected long elapsed() {
+        return this.end - this.start;
+    }
 }

@@ -1,8 +1,9 @@
 package benchmark;
 
-class TestBenchmark implements Runner {
+class TestBenchmark extends Runner {
 
-    public String run() {
-        return "";
+    public long run() {
+        // return time elapsed...
+        return this.elapsed();
     }
 }

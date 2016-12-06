@@ -1,6 +1,6 @@
 package analyzer;
 
-public class PartitioningAnalyzer {
+public class PartitioningAnalyzer implements PerformanceAnalyzer {
 
     private String[] metrics;
 
@@ -9,6 +9,5 @@ public class PartitioningAnalyzer {
     }
 
     public void analyze() {
-
     }
 }

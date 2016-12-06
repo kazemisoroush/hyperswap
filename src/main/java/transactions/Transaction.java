@@ -6,6 +6,16 @@ import database.TransactionLogger;
 public abstract class Transaction {
 
     /**
+     * Start time of transaction.
+     */
+    protected long start;
+
+    /**
+     * End time of transaction.
+     */
+    protected long end;
+
+    /**
      * Transaction model here it is.
      */
     protected Model model = new Model();
@@ -32,10 +42,7 @@ public abstract class Transaction {
      * Start transaction process.
      */
     public void process() {
-        // ...START THE TRANSACTION...
-        this.status = Status.PROCESSING;
-
-        this.logger.beginTransactionLogging();
+        this.start();
 
         if (this.isTransactionFailed()) {
             // change the transaction status to proper state...
@@ -51,7 +58,7 @@ public abstract class Transaction {
             this.succeedTransaction();
         }
 
-        this.logger.finishTransactionLogging(this.model.modifiedRows);
+        this.end();
     }
 
     /**
@@ -71,4 +78,32 @@ public abstract class Transaction {
      */
     protected abstract boolean isTransactionFailed();
 
+    /**
+     * Actions required to start transaction.
+     */
+    protected void start() {
+        this.start = System.nanoTime();
+
+        this.status = Status.PROCESSING;
+
+        this.logger.beginTransactionLogging();
+    }
+
+    /**
+     * Actions required to finish transaction.
+     */
+    protected void end() {
+        this.end = System.nanoTime();
+
+        this.logger.finishTransactionLogging(this.model.modifiedRows);
+    }
+
+    /**
+     * Get time elapsed for this transaction.
+     *
+     * @return time elapsed.
+     */
+    public long elapsed() {
+        return this.end - this.start;
+    }
 }

@@ -268,4 +268,51 @@ public class Helpers {
     public static void appendStringToFile(File file, String string) {
         // TODO...
     }
+
+    /**
+     * Sum array of numbers.
+     *
+     * @param numbers in array.
+     *
+     * @return total sum.
+     */
+    public static int sum(int[] numbers) {
+        int sum = 0;
+
+        for (int number : numbers) {
+            sum += number;
+        }
+
+        return sum;
+    }
+
+    /**
+     * Weighted random number selection between some numbers.
+     *
+     * @param weights of probability.
+     *
+     * @return index of selected number.
+     */
+    public static int getRandomNumberWithWeightedProbability(int... weights) {
+        // calculate the weighted sum of the numbers...
+        int sum = sum(weights);
+
+        // get a number between 1 and weighted sum...
+        int randomNumber = getRandomInteger(1, sum);
+
+        // index of which the weight is belong to...
+        int index = 0;
+
+        // return selected weight...
+        for (int weight : weights) {
+            if (randomNumber - weight <= 0) {
+                return index;
+            }
+
+            index++;
+            randomNumber -= weight;
+        }
+
+        return index;
+    }
 }
