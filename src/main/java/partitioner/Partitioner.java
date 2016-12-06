@@ -1,6 +1,6 @@
 package partitioner;
 
-import parser.Structure;
+import structure.Structure;
 
 public interface Partitioner {
 

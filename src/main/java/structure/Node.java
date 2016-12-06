@@ -1,21 +1,21 @@
-package parser;
+package structure;
 
 import java.util.ArrayList;
 
 public class Node {
 
     /**
-     * parser.Node identifier.
+     * structure.Node identifier.
      */
     private int id;
 
     /**
-     * parser.Node current color.
+     * structure.Node current color.
      */
     private int color;
 
     /**
-     * parser.Node initial color.
+     * structure.Node initial color.
      */
     private int initColor;
 
@@ -81,7 +81,8 @@ public class Node {
     public void setNeighbours(ArrayList<Integer> neighbours) {
         for (int id : neighbours) {
             // do not add duplicate neighbours...
-            if (this.id == id || this.neighbours.contains(id)) continue;
+            if (this.id == id || this.neighbours.contains(id))
+                continue;
 
             // make the neighbour relation...
             this.neighbours.add(id);
@@ -116,7 +117,8 @@ public class Node {
     public boolean hasNeighbour(int id) {
         // iterate on neighbours...
         for (int neighbourId : this.neighbours) {
-            if (neighbourId == id) return true;
+            if (neighbourId == id)
+                return true;
         }
 
         return false;

@@ -1,4 +1,4 @@
-package parser;
+package structure;
 
 import main.Helpers;
 

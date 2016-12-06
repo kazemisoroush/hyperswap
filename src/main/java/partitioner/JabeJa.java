@@ -1,7 +1,7 @@
 package partitioner;
 
-import parser.Graph;
-import parser.Structure;
+import structure.Graph;
+import structure.Structure;
 
 public class JabeJa implements Partitioner {
 

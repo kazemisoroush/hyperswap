@@ -1,5 +1,9 @@
 package parser;
 
+import structure.Edge;
+import structure.Graph;
+import structure.Node;
+
 import java.io.IOException;
 import java.util.ArrayList;
 

@@ -1,5 +1,9 @@
 package parser;
 
+import structure.Edge;
+import structure.Node;
+import structure.Structure;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 

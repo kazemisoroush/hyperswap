@@ -1,4 +1,4 @@
-package parser;
+package structure;
 
 import main.Helpers;
 
@@ -8,7 +8,7 @@ import java.util.HashSet;
 public class Edge {
 
     /**
-     * parser.Edge's identifier
+     * structure.Edge's identifier
      */
     public int id;
 

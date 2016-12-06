@@ -1,7 +1,7 @@
 package partitioner;
 
-import parser.Hypergraph;
-import parser.Structure;
+import structure.Hypergraph;
+import structure.Structure;
 
 public class HyperSwap implements Partitioner {
 

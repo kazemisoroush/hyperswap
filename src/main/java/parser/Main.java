@@ -1,5 +1,7 @@
 package parser;
 
+import structure.Hypergraph;
+
 import java.io.IOException;
 
 public class Main {
@@ -48,7 +50,7 @@ public class Main {
             HypergraphParser parser = new HypergraphParser(HYPERGRAPH_PATH);
 
             // make an instance of graph...
-            // parser.Graph graph = parser.read();
+            // structure.Graph graph = parser.read();
             Hypergraph hypergraph = parser.read();
 
             System.out.println(hypergraph);

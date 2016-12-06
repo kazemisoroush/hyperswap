@@ -4,11 +4,12 @@ import analyzer.PartitioningAnalyzer;
 import benchmark.TrainBenchmark;
 import exceptions.SchemaDoesNotExistsException;
 import parser.GraphParser;
-import parser.Hypergraph;
 import parser.HypergraphParser;
 import partitioner.HyperSwap;
 import partitioner.JabeJa;
 import seeder.DatabaseSeeder;
+import structure.Graph;
+import structure.Hypergraph;
 
 import java.io.IOException;
 
@@ -32,7 +33,7 @@ public class Main {
 
             // make the modeled graph with the transaction logs...
             GraphParser graphParser = new GraphParser(logPath);
-            parser.Graph graph = graphParser.read();
+            Graph graph = graphParser.read();
 
             // make the modeled hypergraph with the transaction logs...
             HypergraphParser hypergraphParser = new HypergraphParser(logPath);
