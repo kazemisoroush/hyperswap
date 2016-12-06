@@ -1,5 +1,6 @@
 package main;
 
+import analyzer.PartitioningAnalyzer;
 import benchmark.TrainBenchmark;
 import exceptions.SchemaDoesNotExistsException;
 import parser.GraphParser;
@@ -21,6 +22,7 @@ public class Main {
     public static void main(String[] arguments) {
         try {
             // occupy the database with benchmark's seeder...
+            // if the database has already been seeded then no action will be taken...
             DatabaseSeeder seeder = new DatabaseSeeder();
             seeder.occupy();
 
@@ -28,22 +30,25 @@ public class Main {
             TrainBenchmark train = new TrainBenchmark();
             String logPath = train.run();
 
-            // make the graph with the transaction logs...
+            // make the modeled graph with the transaction logs...
             GraphParser graphParser = new GraphParser(logPath);
             parser.Graph graph = graphParser.read();
 
-            // make the hypergraph with the transaction logs...
+            // make the modeled hypergraph with the transaction logs...
             HypergraphParser hypergraphParser = new HypergraphParser(logPath);
             Hypergraph hypergraph = hypergraphParser.read();
 
             // partition the graph with ja-be-ja algorithm...
             JabeJa jabeJa = new JabeJa();
-            jabeJa.partition(graph);
+            // partitionedGraph = jabeJa.partition(graph);
 
             // partition the hypergraph with hyper-swap algorithm...
-            HyperSwap hyperGraphPartitioner = new HyperSwap();
-            hyperGraphPartitioner.partition(hypergraph);
+            HyperSwap hyperSwap = new HyperSwap();
+            // partitionedHyperGraph = hyperSwap.partition(hypergraph);
 
+            // now run the test benchmark and analyze the results...
+            PartitioningAnalyzer analyzer = new PartitioningAnalyzer("performance");
+            // analyzer.analyze(partitionedGraph, partitionedHyperGraph);
         } catch (SchemaDoesNotExistsException e) {
             e.printStackTrace();
         } catch (IOException e) {
