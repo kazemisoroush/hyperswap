@@ -1,5 +1,6 @@
 package main;
 
+import java.io.File;
 import java.util.Collection;
 import java.util.Random;
 
@@ -256,5 +257,15 @@ public class Helpers {
         }
 
         return result;
+    }
+
+    /**
+     * Append string to file.
+     *
+     * @param file   to be added.
+     * @param string to add.
+     */
+    public static void appendStringToFile(File file, String string) {
+        // TODO...
     }
 }

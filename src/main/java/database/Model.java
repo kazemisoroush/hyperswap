@@ -5,7 +5,7 @@ import main.Helpers;
 
 import java.util.ArrayList;
 
-public class Model extends TransactionLogger {
+public class Model {
 
     /**
      * Resulting query string.

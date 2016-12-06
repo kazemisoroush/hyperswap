@@ -1,5 +1,8 @@
 package database;
 
+import main.Helpers;
+
+import java.io.File;
 import java.util.ArrayList;
 
 /**
@@ -8,11 +11,22 @@ import java.util.ArrayList;
 public class TransactionLogger {
 
     /**
+     * Path to the log file.
+     */
+    protected String pathToLogFile = "logs/transaction.log";
+
+    protected File file;
+
+    /**
      * Make new instance of transaction logger.
      */
     public TransactionLogger() {
         // check if the file exists...
-        // make it if it does not exists...
+        try {
+            this.file = new File(getClass().getClassLoader().getResource(this.pathToLogFile).getFile());
+        } catch (NullPointerException e) {
+            // file does not exists...
+        }
     }
 
     /**
@@ -29,12 +43,14 @@ public class TransactionLogger {
      */
     public void finishTransactionLogging(ArrayList<String> modifiedRows) {
         // append the transaction identifier to the file in one line...
-        // ...MAYBE YOU DON'T NEED ANY IDENTIFIERS FOR YOUR TRANSACTIONS...
-
-        // just add modified rows for each transaction in a new line of the log file...
-        // don't forget to put a line-break at the end of the file...
+        String appendThis = Helpers.implode(modifiedRows, " ");
 
         // append all modified rows after the transaction identifier...
+        // just add modified rows for each transaction in a new line of the log file...
+        Helpers.appendStringToFile(this.file, appendThis);
+
+        // don't forget to put a line-break at the end of the file...
+        Helpers.appendStringToFile(this.file, "\n");
     }
 
     /**
@@ -43,4 +59,11 @@ public class TransactionLogger {
     public void truncateLogFile() {
         // make the log file empty...
     }
+
+    public static void main(String[] arguments) {
+        TransactionLogger logger = new TransactionLogger();
+
+        logger.truncateLogFile();
+    }
+
 }

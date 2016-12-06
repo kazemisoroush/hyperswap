@@ -13,7 +13,7 @@ public abstract class Transaction {
     /**
      * Some logger to log the transaction as we need.
      */
-    protected TransactionLogger logger = new TransactionLogger();
+    protected TransactionLogger logger;
 
     /**
      * Status of this transaction.
@@ -24,7 +24,8 @@ public abstract class Transaction {
      * Instantiate new transaction instance.
      */
     public Transaction() {
-        // ...
+        // make new instance of logger...
+        this.logger = new TransactionLogger();
     }
 
     /**
