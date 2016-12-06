@@ -40,7 +40,7 @@ public class DatabaseSeeder extends Property {
     /**
      * Seed the database.
      */
-    public void seed() throws SchemaDoesNotExistsException {
+    public void occupy() throws SchemaDoesNotExistsException {
         // check if the schema exists...
         if (! this.connector.schemaExists()) {
             throw new SchemaDoesNotExistsException("Schema does not exists.");
@@ -54,10 +54,10 @@ public class DatabaseSeeder extends Property {
         // turn on the database checks...
         this.connector.constraintsOff();
 
-        // make instance of loader and seed the database...
+        // make instance of loader and occupy the database...
         Loader loader = new Loader();
 
-        // start the initial seed...
+        // start the initial occupy...
         loader.initialSeed();
 
         // turn database checks off...
@@ -94,7 +94,7 @@ public class DatabaseSeeder extends Property {
         DatabaseSeeder seeder = new DatabaseSeeder();
 
         try {
-            seeder.seed();
+            seeder.occupy();
         } catch (Exception e) {
             e.printStackTrace();
         }

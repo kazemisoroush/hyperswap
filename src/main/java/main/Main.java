@@ -20,20 +20,20 @@ public class Main {
      */
     public static void main(String[] arguments) {
         try {
-            // seed the database with benchmark's seeder...
+            // occupy the database with benchmark's seeder...
             DatabaseSeeder seeder = new DatabaseSeeder();
-            seeder.seed();
+            seeder.occupy();
 
             // run the train benchmark and generate the transaction logs...
             TrainBenchmark train = new TrainBenchmark();
-            train.run();
+            String logPath = train.run();
 
             // make the graph with the transaction logs...
-            GraphParser graphParser = new GraphParser("");
+            GraphParser graphParser = new GraphParser(logPath);
             parser.Graph graph = graphParser.read();
 
             // make the hypergraph with the transaction logs...
-            HypergraphParser hypergraphParser = new HypergraphParser("");
+            HypergraphParser hypergraphParser = new HypergraphParser(logPath);
             Hypergraph hypergraph = hypergraphParser.read();
 
             // partition the graph with ja-be-ja algorithm...
@@ -43,6 +43,7 @@ public class Main {
             // partition the hypergraph with hyper-swap algorithm...
             HyperSwap hyperGraphPartitioner = new HyperSwap();
             hyperGraphPartitioner.partition(hypergraph);
+
         } catch (SchemaDoesNotExistsException e) {
             e.printStackTrace();
         } catch (IOException e) {

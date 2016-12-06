@@ -2,6 +2,7 @@ package benchmark;
 
 class TestBenchmark implements Runner {
 
-    public void run() {
+    public String run() {
+        return "";
     }
 }
