@@ -22,11 +22,6 @@ public class Main {
     public static int NUMBER_OF_COLORS = 4;
 
     /**
-     * Each line starting with these strings assumed as comment line.
-     */
-    public static String[] COMMENTS = {"%", "//", "#"};
-
-    /**
      * Seed value for random number generator function.
      */
     public static int SEED = 654;

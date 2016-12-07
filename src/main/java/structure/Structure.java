@@ -7,12 +7,12 @@ public abstract class Structure {
     /**
      * List of nodes.
      */
-    protected ArrayList<Node> nodes = new ArrayList<Node>();
+    protected ArrayList<Node> nodes = new ArrayList<>();
 
     /**
      * List of edges.
      */
-    protected ArrayList<Edge> edges = new ArrayList<Edge>();
+    protected ArrayList<Edge> edges = new ArrayList<>();
 
     /**
      * Initialize the graph with empty set of nodes.
@@ -74,7 +74,8 @@ public abstract class Structure {
     public int addEdge(Edge edge) {
         // do not allow duplicate edges...
         for (Edge duplicateEdge : this.edges) {
-            if (duplicateEdge.equals(edge)) return this.nodes.size();
+            if (duplicateEdge.equals(edge))
+                return this.nodes.size();
         }
 
         this.edges.add(edge);
@@ -110,15 +111,34 @@ public abstract class Structure {
      *
      * @param indexes of nodes.
      */
-    public void makeNeighbourhood(ArrayList<Integer> indexes) {
-        // iterate on node indexes...
-        for (int index : indexes) {
-            // find the node...
-            Node node = this.nodes.get(index);
+    //public void makeNeighbourhood(ArrayList<String> indexes) {
+    //    // iterate on node indexes...
+    //    for (String index : indexes) {
+    //        // find the node...
+    //        Node node = this.nodes.get(index);
+    //
+    //        // make other indexes neighbour of current iteration's node...
+    //        node.setNeighbours(indexes);
+    //    }
+    //}
 
-            // make other indexes neighbour of current iteration's node...
-            node.setNeighbours(indexes);
+    /**
+     * Check if structure has node with this identifier.
+     *
+     * @param nodeIdentifier which we are checking.
+     *
+     * @return boolean value of check result.
+     */
+    public boolean hasNode(String nodeIdentifier) {
+        // check if structure has node with this identifier...
+        for (Node node : this.nodes) {
+            if (node.getId().equals(nodeIdentifier)) {
+                return true;
+            }
         }
+
+        // node not found...
+        return false;
     }
 
 }

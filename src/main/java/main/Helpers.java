@@ -1,9 +1,7 @@
 package main;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
@@ -43,6 +41,18 @@ public class Helpers {
         }
 
         return imploded;
+    }
+
+    /**
+     * Explode string into array with input regex delimiter.
+     *
+     * @param string         to explode.
+     * @param regexDelimiter string value.
+     *
+     * @return exploded array.
+     */
+    public static String[] explode(String string, String regexDelimiter) {
+        return string.split(regexDelimiter);
     }
 
     /**
@@ -342,4 +352,78 @@ public class Helpers {
 
         return index;
     }
+
+    /**
+     * Fill an array of string lines from input logFile path.
+     *
+     * @param path to the logFile.
+     *
+     * @return array of lines.
+     * @throws IOException of logFile not found.
+     */
+    public static ArrayList<String> fileToArray(String path) throws IOException {
+        // make a variable for lines...
+        String line;
+
+        // initialize array of lines...
+        ArrayList<String> arrayOfLines = new ArrayList<String>();
+
+        // make a buffered reader to read the stream line by line...
+        BufferedReader reader = new BufferedReader(new InputStreamReader(Helpers.class.getResourceAsStream(path)));
+
+        // the first non-comment line of logFile is number of nodes and number of edges of the graph...
+        // so we need to extract the first non-comment line...
+        while ((line = reader.readLine()) != null) {
+            // define comment for first of lines...
+            if (isComment(line))
+                continue;
+
+            // remove comment part of the line...
+            line = cutCommentPart(line);
+
+            // add the line string to the array of lines...
+            arrayOfLines.add(line);
+        }
+
+        return arrayOfLines;
+    }
+
+    /**
+     * Check if the line is comment.
+     *
+     * @param line to check.
+     *
+     * @return boolean which specifies the line is comment or not.
+     */
+    public static boolean isComment(String line) {
+        // check each comment starting...
+        for (String comment : main.Main.COMMENTS) {
+            if (line.startsWith(comment))
+                return true;
+        }
+
+        // otherwise...
+        return false;
+    }
+
+    /**
+     * Remove the comment part from string line.
+     *
+     * @param line which we need to be comment free.
+     *
+     * @return comment free line.
+     */
+    public static String cutCommentPart(String line) {
+        for (String comment : main.Main.COMMENTS) {
+            // if line does not have this comment then just skip it...
+            if (! line.contains(comment))
+                continue;
+
+            // cut the line from beginning to the comment character...
+            line = line.substring(0, line.lastIndexOf(comment) - 1);
+        }
+
+        return line;
+    }
+
 }

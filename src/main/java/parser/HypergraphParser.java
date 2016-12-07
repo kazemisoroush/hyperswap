@@ -1,5 +1,6 @@
 package parser;
 
+import main.Helpers;
 import structure.Edge;
 import structure.Hypergraph;
 import structure.Node;
@@ -23,15 +24,6 @@ public class HypergraphParser extends Parser {
         // make instance of the hypergraph...
         Hypergraph hypergraph = new Hypergraph();
 
-        // make the node instances...
-        ArrayList<Node> nodes = new ArrayList<>();
-        for (int i = 0; i < this.numberOfNodes; i++) {
-            nodes.add(new Node(i, this.randomInteger(Main.NUMBER_OF_COLORS)));
-        }
-
-        // add these nodes to the hypergraph...
-        hypergraph.addNodes(nodes);
-
         // make a variable for edge id...
         int edgeId = 0;
 
@@ -39,7 +31,19 @@ public class HypergraphParser extends Parser {
         // number of iterations must be equal to number of edges...
         for (Object line : this.lines) {
             // get hyperedge's nodes in single line of input logFile...
-            ArrayList<Integer> hyperedgeNodes = this.parseLine((String) line);
+            ArrayList<String> hyperedgeNodes = this.parseLine((String) line);
+
+            // check for new nodes and add them to the hypergraph...
+            for (String nodeIdentifier : hyperedgeNodes) {
+                // if the hypergraph has the node then we do not need to create it anymore...
+                if (hypergraph.hasNode(nodeIdentifier)) {
+                    continue;
+                }
+
+                // create new node with random color and add it to the hypergraph...
+                Node node = new Node(nodeIdentifier, this.randomInteger(Main.NUMBER_OF_COLORS));
+                hypergraph.addNode(node);
+            }
 
             // create an hyperedge instance and add nodes to the hyperedge...
             Edge hyperedge = new Edge(edgeId, hyperedgeNodes);
@@ -48,7 +52,7 @@ public class HypergraphParser extends Parser {
             hypergraph.addEdge(hyperedge);
 
             // make neighbourhood relationship for all nodes in the hyperedge...
-            hypergraph.makeNeighbourhood(hyperedgeNodes);
+            // hypergraph.makeNeighbourhood(hyperedgeNodes);
 
             // increment the node id...
             edgeId++;
@@ -58,18 +62,20 @@ public class HypergraphParser extends Parser {
     }
 
     @Override
-    public ArrayList<Integer> parseLine(String line) {
+    public ArrayList<String> parseLine(String line) {
         // split the line...
-        String[] parts = line.split(" ");
+        String[] parts = Helpers.explode(line, " ");
 
         // make list of node ids...
-        ArrayList<Integer> hyperedgeNodes = new ArrayList<Integer>();
+        ArrayList<String> hyperedgeNodes = new ArrayList<>();
 
         // extract the neighbours...
         for (String part : parts) {
-            if (part.equals("")) continue;
+            if (part.equals("")) {
+                continue;
+            }
 
-            hyperedgeNodes.add(Integer.parseInt(part) - 1);
+            hyperedgeNodes.add(part);
         }
 
         return hyperedgeNodes;

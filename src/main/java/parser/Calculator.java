@@ -27,13 +27,13 @@ public class Calculator {
         // sum the graph nodes energy...
         for (Edge edge : edges) {
             // get edge nodes...
-            HashSet<Integer> edgeNodes = edge.getNodes();
+            HashSet<String> edgeNodes = edge.getNodes();
 
-            for (int nodeId : edgeNodes) {
+            for (String nodeId : edgeNodes) {
                 // find the node instance...
-                Node node = nodes.get(nodeId);
+                // Node node = nodes.get(nodeId);
 
-                energySum += nodeEnergy(structure, node);
+                // energySum += nodeEnergy(structure, node);
             }
         }
 
@@ -60,7 +60,8 @@ public class Calculator {
         // iterate on nodes of graph to see which one is it's neighbour...
         for (Node neighbour : structure.getNodes()) {
             // check the neighbourhood...
-            if (! node.hasNeighbour(neighbour.getId())) continue;
+            // if (! node.hasNeighbour(neighbour.getId()))
+            // continue;
 
             // increment the energy...
             energy++;

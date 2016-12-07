@@ -15,7 +15,7 @@ public class Edge {
     /**
      * List of nodes which this edge is relating them together.
      */
-    protected HashSet<Integer> nodes = new HashSet<Integer>();
+    protected HashSet<String> nodes = new HashSet<>();
 
     /**
      * Make new instance of this edge.
@@ -32,7 +32,7 @@ public class Edge {
      * @param id    edge's identifier.
      * @param nodes which this edge is relating.
      */
-    public Edge(int id, ArrayList<Integer> nodes) {
+    public Edge(int id, ArrayList<String> nodes) {
         this.id = id;
         this.nodes.addAll(nodes);
     }
@@ -44,7 +44,7 @@ public class Edge {
      * @param firstNodeId  integer value of first node identifier.
      * @param secondNodeId integer value of second node identifier.
      */
-    public Edge(int id, int firstNodeId, int secondNodeId) {
+    public Edge(int id, String firstNodeId, String secondNodeId) {
         this.id = id;
         this.nodes.add(firstNodeId);
         this.nodes.add(secondNodeId);
@@ -57,7 +57,7 @@ public class Edge {
      *
      * @return size of nodes.
      */
-    public int addNodes(ArrayList<Integer> nodes) {
+    public int addNodes(ArrayList<String> nodes) {
         this.nodes.addAll(nodes);
 
         return this.nodes.size();
@@ -79,7 +79,7 @@ public class Edge {
      *
      * @return node list.
      */
-    public HashSet<Integer> getNodes() {
+    public HashSet<String> getNodes() {
         return nodes;
     }
 

@@ -7,7 +7,7 @@ public class Node {
     /**
      * structure.Node identifier.
      */
-    private int id;
+    private String id;
 
     /**
      * structure.Node current color.
@@ -22,7 +22,7 @@ public class Node {
     /**
      * List of node's neighbours.
      */
-    private ArrayList<Integer> neighbours;
+    private ArrayList<String> neighbours;
 
     /**
      * Initialize node object.
@@ -30,11 +30,11 @@ public class Node {
      * @param id    node's identifier.
      * @param color initial color of node.
      */
-    public Node(int id, int color) {
+    public Node(String id, int color) {
         this.id = id;
         this.color = color;
         this.initColor = color;
-        this.neighbours = new ArrayList<Integer>();
+        this.neighbours = new ArrayList<>();
     }
 
     /**
@@ -42,7 +42,7 @@ public class Node {
      *
      * @return node's identifier.
      */
-    public int getId() {
+    public String getId() {
         return this.id;
     }
 
@@ -78,10 +78,10 @@ public class Node {
      *
      * @param neighbours list of node neighbours.
      */
-    public void setNeighbours(ArrayList<Integer> neighbours) {
-        for (int id : neighbours) {
+    public void setNeighbours(ArrayList<String> neighbours) {
+        for (String id : neighbours) {
             // do not add duplicate neighbours...
-            if (this.id == id || this.neighbours.contains(id))
+            if (this.id.equals(id) || this.neighbours.contains(id))
                 continue;
 
             // make the neighbour relation...
@@ -94,7 +94,7 @@ public class Node {
      *
      * @return nodes neighbours list.
      */
-    public ArrayList<Integer> getNeighbours() {
+    public ArrayList<String> getNeighbours() {
         return this.neighbours;
     }
 
@@ -114,11 +114,12 @@ public class Node {
      *
      * @return boolean result of check.
      */
-    public boolean hasNeighbour(int id) {
+    public boolean hasNeighbour(String id) {
         // iterate on neighbours...
-        for (int neighbourId : this.neighbours) {
-            if (neighbourId == id)
+        for (String neighbourId : this.neighbours) {
+            if (neighbourId.equals(id)) {
                 return true;
+            }
         }
 
         return false;
@@ -131,6 +132,6 @@ public class Node {
      */
     @Override
     public String toString() {
-        return String.format("{v%s [%s]}", id, color);
+        return String.format("{%s [%s]}", this.id, this.color);
     }
 }
