@@ -11,21 +11,24 @@ import java.util.ArrayList;
 public class TransactionLogger {
 
     /**
-     * Path to the log file.
+     * Path to the log logFile.
      */
     protected String pathToLogFile = "logs/transaction.log";
 
-    protected File file;
+    /**
+     * Instance of log file.
+     */
+    protected File logFile;
 
     /**
      * Make new instance of transaction logger.
      */
     public TransactionLogger() {
-        // check if the file exists...
+        // check if the logFile exists...
         try {
-            this.file = new File(getClass().getClassLoader().getResource(this.pathToLogFile).getFile());
+            this.logFile = new File(getClass().getClassLoader().getResource(this.pathToLogFile).getFile());
         } catch (NullPointerException e) {
-            // file does not exists...
+            // logFile does not exists...
         }
     }
 
@@ -42,19 +45,19 @@ public class TransactionLogger {
      * @param modifiedRows from transaction.
      */
     public void finishTransactionLogging(ArrayList<String> modifiedRows) {
-        // append the transaction identifier to the file in one line...
+        // append the transaction identifier to the logFile in one line...
         String appendThis = Helpers.implode(modifiedRows, " ");
 
         // append all modified rows after the transaction identifier...
-        // just add modified rows for each transaction in a new line of the log file...
-        Helpers.appendStringToFile(this.file, appendThis, true);
+        // just add modified rows for each transaction in a new line of the log logFile...
+        Helpers.appendStringToFile(this.logFile, appendThis, true);
     }
 
     /**
-     * Truncate the log file.
+     * Truncate the log logFile.
      */
     public void truncateLogFile() {
-        // make the log file empty...
+        // make the log logFile empty...
     }
 
     public static void main(String[] arguments) {

@@ -7,12 +7,12 @@ import java.io.IOException;
 public class Main {
 
     /**
-     * Path to graph file.
+     * Path to graph logFile.
      */
     public static String GRAPH_PATH = "/graphs/test.graph";
 
     /**
-     * Path to hypergraph file.
+     * Path to hypergraph logFile.
      */
     public static String HYPERGRAPH_PATH = "/hypergraphs/test.graph";
 

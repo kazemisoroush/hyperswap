@@ -12,7 +12,7 @@ public class HypergraphParser extends Parser {
     /**
      * Initialize the structure.
      *
-     * @param path to structure file.
+     * @param path to structure logFile.
      */
     public HypergraphParser(String path) throws IOException {
         super(path);
@@ -38,7 +38,7 @@ public class HypergraphParser extends Parser {
         // now loop on other string lines...
         // number of iterations must be equal to number of edges...
         for (Object line : this.lines) {
-            // get hyperedge's nodes in single line of input file...
+            // get hyperedge's nodes in single line of input logFile...
             ArrayList<Integer> hyperedgeNodes = this.parseLine((String) line);
 
             // create an hyperedge instance and add nodes to the hyperedge...

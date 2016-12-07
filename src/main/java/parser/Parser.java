@@ -23,22 +23,22 @@ public abstract class Parser<Structure> {
     protected Random random = new Random(Main.SEED);
 
     /**
-     * Lines of structure file.
+     * Lines of structure logFile.
      */
     protected ArrayList<String> lines = new ArrayList<String>();
 
     /**
-     * Other parameters extracted from first line of structure file.
+     * Other parameters extracted from first line of structure logFile.
      */
     public ArrayList<String> otherParameters = new ArrayList<String>();
 
     /**
      * Initialize the structure.
      *
-     * @param path to structure file.
+     * @param path to structure logFile.
      */
     public Parser(String path) throws IOException {
-        // get array of file string lines...
+        // get array of logFile string lines...
         this.lines = this.fileToArray(path);
 
         // first line is the graph vertices and edges number...
@@ -63,14 +63,14 @@ public abstract class Parser<Structure> {
     }
 
     /**
-     * Read the data structure from file and put it inside it's object.
+     * Read the data structure from logFile and put it inside it's object.
      *
      * @return the graph object.
      */
     public abstract Structure read();
 
     /**
-     * Parse a string line in data structure file.
+     * Parse a string line in data structure logFile.
      *
      * @param line to be parsed.
      *
@@ -79,12 +79,12 @@ public abstract class Parser<Structure> {
     public abstract ArrayList<Integer> parseLine(String line);
 
     /**
-     * Fill an array of string lines from input file path.
+     * Fill an array of string lines from input logFile path.
      *
-     * @param path to the file.
+     * @param path to the logFile.
      *
      * @return array of lines.
-     * @throws IOException of file not found.
+     * @throws IOException of logFile not found.
      */
     protected ArrayList<String> fileToArray(String path) throws IOException {
         // make a variable for lines...
@@ -96,7 +96,7 @@ public abstract class Parser<Structure> {
         // make a buffered reader to read the stream line by line...
         BufferedReader reader = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(path)));
 
-        // the first non-comment line of file is number of nodes and number of edges of the graph...
+        // the first non-comment line of logFile is number of nodes and number of edges of the graph...
         // so we need to extract the first non-comment line...
         while ((line = reader.readLine()) != null) {
             // define comment for first of lines...

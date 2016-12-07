@@ -41,7 +41,7 @@ public class DatabaseConnector extends Property {
     }
 
     /**
-     * Try to connect to the database by parameters in properties file.
+     * Try to connect to the database by parameters in properties logFile.
      *
      * @return connection to the database.
      */
@@ -53,7 +53,7 @@ public class DatabaseConnector extends Property {
             e.printStackTrace();
         }
 
-        // get database variables from properties file...
+        // get database variables from properties logFile...
         this.url = this.properties.getProperty("JDBC_URL");
         this.username = this.properties.getProperty("DB_USERNAME");
         this.password = this.properties.getProperty("DB_PASSWORD");

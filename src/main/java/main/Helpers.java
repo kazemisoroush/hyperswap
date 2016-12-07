@@ -263,11 +263,11 @@ public class Helpers {
     }
 
     /**
-     * Append string to file.
+     * Append string to logFile.
      *
      * @param file           to be appended.
      * @param string         to append.
-     * @param alsoAddNewLine to the end of the file.
+     * @param alsoAddNewLine to the end of the logFile.
      */
     public static void appendStringToFile(File file, String string, boolean alsoAddNewLine) {
         BufferedWriter writer = null;
@@ -275,10 +275,10 @@ public class Helpers {
         try {
             writer = new BufferedWriter(new FileWriter(file, true));
 
-            // write the string to the file...
+            // write the string to the logFile...
             writer.write(string);
 
-            // also add new line at the end of the file...
+            // also add new line at the end of the logFile...
             if (alsoAddNewLine) {
                 writer.newLine();
             }
@@ -300,7 +300,7 @@ public class Helpers {
     }
 
     /**
-     * Append string to file.
+     * Append string to logFile.
      *
      * @param file   to be prepended.
      * @param string to prepend.

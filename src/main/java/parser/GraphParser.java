@@ -12,7 +12,7 @@ public class GraphParser extends Parser {
     /**
      * Initialize the structure.
      *
-     * @param path to structure file.
+     * @param path to structure logFile.
      */
     public GraphParser(String path) throws IOException {
         super(path);
