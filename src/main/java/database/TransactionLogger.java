@@ -47,10 +47,7 @@ public class TransactionLogger {
 
         // append all modified rows after the transaction identifier...
         // just add modified rows for each transaction in a new line of the log file...
-        Helpers.appendStringToFile(this.file, appendThis);
-
-        // don't forget to put a line-break at the end of the file...
-        Helpers.appendStringToFile(this.file, "\n");
+        Helpers.appendStringToFile(this.file, appendThis, true);
     }
 
     /**

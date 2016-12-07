@@ -66,7 +66,6 @@ public abstract class Parser<Structure> {
      * Read the data structure from file and put it inside it's object.
      *
      * @return the graph object.
-     * @throws IOException
      */
     public abstract Structure read();
 
@@ -85,7 +84,7 @@ public abstract class Parser<Structure> {
      * @param path to the file.
      *
      * @return array of lines.
-     * @throws IOException
+     * @throws IOException of file not found.
      */
     protected ArrayList<String> fileToArray(String path) throws IOException {
         // make a variable for lines...
@@ -101,7 +100,8 @@ public abstract class Parser<Structure> {
         // so we need to extract the first non-comment line...
         while ((line = reader.readLine()) != null) {
             // define comment for first of lines...
-            if (this.isComment(line)) continue;
+            if (this.isComment(line))
+                continue;
 
             // remove comment part of the line...
             line = this.cutCommentPart(line);
@@ -123,7 +123,8 @@ public abstract class Parser<Structure> {
     private boolean isComment(String line) {
         // check each comment starting...
         for (String comment : Main.COMMENTS) {
-            if (line.startsWith(comment)) return true;
+            if (line.startsWith(comment))
+                return true;
         }
 
         // otherwise...
@@ -140,7 +141,8 @@ public abstract class Parser<Structure> {
     private String cutCommentPart(String line) {
         for (String comment : Main.COMMENTS) {
             // if line does not have this comment then just skip it...
-            if (! line.contains(comment)) continue;
+            if (! line.contains(comment))
+                continue;
 
             // cut the line from beginning to the comment character...
             line = line.substring(0, line.lastIndexOf(comment) - 1);

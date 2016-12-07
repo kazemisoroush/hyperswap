@@ -1,6 +1,9 @@
 package main;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Random;
 
@@ -262,10 +265,47 @@ public class Helpers {
     /**
      * Append string to file.
      *
-     * @param file   to be added.
-     * @param string to add.
+     * @param file           to be appended.
+     * @param string         to append.
+     * @param alsoAddNewLine to the end of the file.
      */
-    public static void appendStringToFile(File file, String string) {
+    public static void appendStringToFile(File file, String string, boolean alsoAddNewLine) {
+        BufferedWriter writer = null;
+
+        try {
+            writer = new BufferedWriter(new FileWriter(file, true));
+
+            // write the string to the file...
+            writer.write(string);
+
+            // also add new line at the end of the file...
+            if (alsoAddNewLine) {
+                writer.newLine();
+            }
+
+            // finish writing...
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (writer != null) {
+                try {
+                    // close the writer...
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    /**
+     * Append string to file.
+     *
+     * @param file   to be prepended.
+     * @param string to prepend.
+     */
+    public static void prependStringToFile(File file, String string) {
         // TODO...
     }
 
