@@ -3,15 +3,9 @@ package main;
 import analyzer.PartitioningAnalyzer;
 import benchmark.Benchmark;
 import exceptions.SchemaDoesNotExistsException;
-import parser.GraphParser;
-import parser.HypergraphParser;
 import partitioner.HyperSwap;
 import partitioner.JabeJa;
 import seeder.DatabaseSeeder;
-import structure.Graph;
-import structure.Hypergraph;
-
-import java.io.IOException;
 
 public class Main {
 
@@ -32,12 +26,12 @@ public class Main {
             train.run();
 
             // TODO: make the modeled graph with the transaction logs...
-            GraphParser graphParser = new GraphParser("logs/transaction.log");
-            Graph graph = graphParser.read();
+            // GraphParser graphParser = new GraphParser("logs/transaction.log");
+            // Graph graph = graphParser.read();
 
             // TODO: make the modeled hypergraph with the transaction logs...
-            HypergraphParser hypergraphParser = new HypergraphParser("logs/transaction.log");
-            Hypergraph hypergraph = hypergraphParser.read();
+            // HypergraphParser hypergraphParser = new HypergraphParser("logs/transaction.log");
+            // Hypergraph hypergraph = hypergraphParser.read();
 
             // TODO: partition the graph with ja-be-ja algorithm...
             JabeJa jabeJa = new JabeJa();
@@ -52,8 +46,8 @@ public class Main {
             // analyzer.analyze(partitionedGraph, partitionedHyperGraph);
         } catch (SchemaDoesNotExistsException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+            // } catch (IOException e) {
+            //e.printStackTrace();
         }
 
     }

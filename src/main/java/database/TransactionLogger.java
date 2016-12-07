@@ -52,7 +52,7 @@ public class TransactionLogger {
 
         // append all modified rows after the transaction identifier...
         // just add modified rows for each transaction in a new line of the log logFile...
-        Helpers.appendStringToFile(this.logFile, appendThis, true);
+        Helpers.appendStringToFile(this.logFile, appendThis);
     }
 
     /**
@@ -76,10 +76,17 @@ public class TransactionLogger {
         TransactionLogger logger = new TransactionLogger();
 
         // System.out.println(logger.absolutePathToLogFile);
+        ArrayList<String> list = new ArrayList<String>();
+
+        list.add("1. Soroush");
+        list.add("2. Mohammad");
+        list.add("3. Pouyan");
+        list.add("4. Sara");
 
         System.out.println("Truncate please...");
 
         logger.truncateLogFile();
+        logger.finishTransactionLogging(list);
     }
 
 }

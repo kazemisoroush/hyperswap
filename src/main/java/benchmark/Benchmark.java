@@ -27,6 +27,8 @@ public class Benchmark extends Runner {
      * @return time elapsed for running the benchmark.
      */
     public long run() {
+        System.out.println("Benchmark run started...");
+
         // begin the clock...
         this.startClock();
 
@@ -38,6 +40,8 @@ public class Benchmark extends Runner {
 
         // first run the benchmark and extract the transaction logs ...
         for (int iteration = 0; iteration <= this.iterations; iteration++) {
+            System.out.println("Iteration: " + iteration);
+
             // randomly select a transaction type...
             int transactionTypeDistribution = Helpers.getRandomNumberWithWeightedProbability(45, 43, 4, 4, 4);
 
@@ -107,6 +111,7 @@ public class Benchmark extends Runner {
         // benchmark run finished so you can stop the clock..
         this.stopClock();
 
+        System.out.println("Benchmark run ended. Time elapsed : " + this.elapsed() + "...");
         // return time elapsed...
         return this.elapsed();
     }

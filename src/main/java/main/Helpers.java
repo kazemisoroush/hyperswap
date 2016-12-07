@@ -265,11 +265,10 @@ public class Helpers {
     /**
      * Append string to logFile.
      *
-     * @param file           to be appended.
-     * @param string         to append.
-     * @param alsoAddNewLine to the end of the logFile.
+     * @param file   to be appended.
+     * @param string to append.
      */
-    public static void appendStringToFile(File file, String string, boolean alsoAddNewLine) {
+    public static void appendStringToFile(File file, String string) {
         BufferedWriter writer = null;
 
         try {
@@ -279,34 +278,25 @@ public class Helpers {
             writer.write(string);
 
             // also add new line at the end of the logFile...
-            if (alsoAddNewLine) {
-                writer.newLine();
-            }
+            //if (alsoAddNewLine) {
+            System.out.println("New line...");
+            writer.newLine();
+            //}
 
             // finish writing...
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (writer != null) {
-                try {
-                    // close the writer...
-                    writer.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            //} finally {
+            //    if (writer != null) {
+            //        try {
+            //            // close the writer...
+            //            writer.close();
+            //        } catch (IOException e) {
+            //            e.printStackTrace();
+            //        }
+            //    }
         }
-    }
-
-    /**
-     * Append string to logFile.
-     *
-     * @param file   to be prepended.
-     * @param string to prepend.
-     */
-    public static void prependStringToFile(File file, String string) {
-        // TODO...
     }
 
     /**
