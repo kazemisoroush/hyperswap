@@ -27,8 +27,8 @@ public class Main {
             DatabaseSeeder seeder = new DatabaseSeeder();
             seeder.occupy();
 
-            // TODO: run the train benchmark and generate the transaction logs...
-            Benchmark train = new Benchmark();
+            // run the train benchmark and generate the transaction logs...
+            Benchmark train = new Benchmark(11);
             train.run();
 
             // TODO: make the modeled graph with the transaction logs...

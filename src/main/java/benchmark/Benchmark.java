@@ -6,6 +6,21 @@ import transactions.*;
 public class Benchmark extends Runner {
 
     /**
+     * Instantiate new instance of benchmark runner.
+     */
+    public Benchmark() {
+    }
+
+    /**
+     * Instantiate new instance of benchmark runner.
+     *
+     * @param iterations to run the runner.
+     */
+    public Benchmark(int iterations) {
+        this.iterations = iterations;
+    }
+
+    /**
      * Run the training benchmark to make the transactional logs.
      *
      * @return time elapsed for running the benchmark.

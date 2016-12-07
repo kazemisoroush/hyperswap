@@ -18,21 +18,6 @@ abstract public class Runner {
     protected long end;
 
     /**
-     * Instantiate new instance of benchmark runner.
-     */
-    public Runner() {
-    }
-
-    /**
-     * Instantiate new instance of benchmark runner.
-     *
-     * @param iterations to run the runner.
-     */
-    public Runner(int iterations) {
-        this.iterations = iterations;
-    }
-
-    /**
      * Each benchmark must have a run method.
      *
      * @return time elapsed for benchmark to run.
