@@ -35,18 +35,11 @@ public class TransactionLogger {
     }
 
     /**
-     * Begin transaction logging.
-     */
-    public void beginTransactionLogging() {
-        // no need to do something...
-    }
-
-    /**
      * Finish transaction logging.
      *
      * @param modifiedRows from transaction.
      */
-    public void finishTransactionLogging(ArrayList<String> modifiedRows) {
+    public void logTransaction(ArrayList<String> modifiedRows) {
         // append the transaction identifier to the logFile in one line...
         String appendThis = Helpers.implode(modifiedRows, " ");
 
@@ -86,7 +79,7 @@ public class TransactionLogger {
         System.out.println("Truncate please...");
 
         logger.truncateLogFile();
-        logger.finishTransactionLogging(list);
+        logger.logTransaction(list);
     }
 
 }

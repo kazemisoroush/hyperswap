@@ -281,21 +281,18 @@ public class Helpers {
             //if (alsoAddNewLine) {
             System.out.println("New line...");
             writer.newLine();
-            //}
-
-            // finish writing...
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
-            //} finally {
-            //    if (writer != null) {
-            //        try {
-            //            // close the writer...
-            //            writer.close();
-            //        } catch (IOException e) {
-            //            e.printStackTrace();
-            //        }
-            //    }
+        } finally {
+            if (writer != null) {
+                try {
+                    // close the writer...
+                    writer.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

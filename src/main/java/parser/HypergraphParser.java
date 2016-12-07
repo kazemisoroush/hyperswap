@@ -24,7 +24,7 @@ public class HypergraphParser extends Parser {
         Hypergraph hypergraph = new Hypergraph();
 
         // make the node instances...
-        ArrayList<Node> nodes = new ArrayList<Node>();
+        ArrayList<Node> nodes = new ArrayList<>();
         for (int i = 0; i < this.numberOfNodes; i++) {
             nodes.add(new Node(i, this.randomInteger(Main.NUMBER_OF_COLORS)));
         }

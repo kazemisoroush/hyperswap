@@ -85,9 +85,6 @@ public abstract class Transaction {
         this.start = System.nanoTime();
 
         this.status = Status.PROCESSING;
-
-        // logging from single transaction begins...
-        this.logger.beginTransactionLogging();
     }
 
     /**
@@ -97,7 +94,7 @@ public abstract class Transaction {
         this.end = System.nanoTime();
 
         // logging from transaction finished...
-        this.logger.finishTransactionLogging(this.model.modifiedRows);
+        this.logger.logTransaction(this.model.modifiedRows);
     }
 
     /**
