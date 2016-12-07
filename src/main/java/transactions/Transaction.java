@@ -42,7 +42,7 @@ public abstract class Transaction {
      * Start transaction process.
      */
     public void process() {
-        this.start();
+        this.begin();
 
         if (this.isTransactionFailed()) {
             // change the transaction status to proper state...
@@ -79,13 +79,14 @@ public abstract class Transaction {
     protected abstract boolean isTransactionFailed();
 
     /**
-     * Actions required to start transaction.
+     * Actions required to begin transaction.
      */
-    protected void start() {
+    protected void begin() {
         this.start = System.nanoTime();
 
         this.status = Status.PROCESSING;
 
+        // logging from single transaction begins...
         this.logger.beginTransactionLogging();
     }
 
@@ -95,6 +96,7 @@ public abstract class Transaction {
     protected void end() {
         this.end = System.nanoTime();
 
+        // logging from transaction finished...
         this.logger.finishTransactionLogging(this.model.modifiedRows);
     }
 

@@ -1,5 +1,6 @@
 package benchmark;
 
+import database.TransactionLogger;
 import main.Helpers;
 import transactions.*;
 
@@ -26,8 +27,11 @@ public class Benchmark extends Runner {
      * @return time elapsed for running the benchmark.
      */
     public long run() {
-        // start the clock...
+        // begin the clock...
         this.startClock();
+
+        // truncate the transactional log file...
+        (new TransactionLogger()).truncateLogFile();
 
         // mean value for think time...
         double mu = 5;
@@ -40,7 +44,7 @@ public class Benchmark extends Runner {
             // 1. select a transaction type...
             Transaction transaction = new NewOrderTransaction();
 
-            // 4. enter the required numbers in the input (keying time)...
+            // 4. enter the required numbers in the input (keying time) initialized with default value...
             int keyingTime = 18;
 
             // decide which transaction to choose...

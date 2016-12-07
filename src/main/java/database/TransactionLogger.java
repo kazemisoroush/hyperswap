@@ -3,6 +3,7 @@ package database;
 import main.Helpers;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -13,7 +14,7 @@ public class TransactionLogger {
     /**
      * Path to the log logFile.
      */
-    protected String pathToLogFile = "logs/transaction.log";
+    protected String pathToLogFile = "src/main/resources/logs/transaction.log";
 
     /**
      * Instance of log file.
@@ -26,9 +27,10 @@ public class TransactionLogger {
     public TransactionLogger() {
         // check if the logFile exists...
         try {
-            this.logFile = new File(getClass().getClassLoader().getResource(this.pathToLogFile).getFile());
+            this.logFile = new File(this.pathToLogFile);
         } catch (NullPointerException e) {
             // logFile does not exists...
+            e.printStackTrace();
         }
     }
 
@@ -58,10 +60,22 @@ public class TransactionLogger {
      */
     public void truncateLogFile() {
         // make the log logFile empty...
+        this.logFile.delete();
+        this.logFile = new File(this.pathToLogFile);
+        this.logFile.getParentFile().mkdirs();
+        try {
+            this.logFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] arguments) {
         TransactionLogger logger = new TransactionLogger();
+
+        // System.out.println(logger.absolutePathToLogFile);
+
+        System.out.println("Truncate please...");
 
         logger.truncateLogFile();
     }
