@@ -61,6 +61,8 @@ public class TransactionLogger {
     public void truncateLogFile() {
         // make the log logFile empty...
         this.logFile.delete();
+
+        // make it again...
         this.logFile = new File(this.pathToLogFile);
         this.logFile.getParentFile().mkdirs();
         try {
