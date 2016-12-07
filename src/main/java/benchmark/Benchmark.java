@@ -86,7 +86,7 @@ public class Benchmark extends Runner {
         }
 
         // benchmark run finished so you can stop the clock..
-        this.endClock();
+        this.stopClock();
 
         // return time elapsed...
         return this.elapsed();
