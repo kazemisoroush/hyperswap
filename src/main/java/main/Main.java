@@ -1,7 +1,7 @@
 package main;
 
 import analyzer.PartitioningAnalyzer;
-import benchmark.TrainBenchmark;
+import benchmark.Benchmark;
 import exceptions.SchemaDoesNotExistsException;
 import parser.GraphParser;
 import parser.HypergraphParser;
@@ -28,14 +28,14 @@ public class Main {
             seeder.occupy();
 
             // TODO: run the train benchmark and generate the transaction logs...
-            TrainBenchmark train = new TrainBenchmark();
+            Benchmark train = new Benchmark();
             train.run();
 
-            // TOOD: make the modeled graph with the transaction logs...
+            // TODO: make the modeled graph with the transaction logs...
             GraphParser graphParser = new GraphParser("logs/transaction.log");
             Graph graph = graphParser.read();
 
-            // TOOD: make the modeled hypergraph with the transaction logs...
+            // TODO: make the modeled hypergraph with the transaction logs...
             HypergraphParser hypergraphParser = new HypergraphParser("logs/transaction.log");
             Hypergraph hypergraph = hypergraphParser.read();
 
