@@ -94,14 +94,4 @@ public class OrderStatusTransaction extends Transaction {
         return false;
     }
 
-    /**
-     * Execute this transaction for testing purposes.
-     *
-     * @param arguments from console.
-     */
-    public static void main(String[] arguments) {
-        OrderStatusTransaction transaction = new OrderStatusTransaction();
-
-        transaction.process();
-    }
 }
