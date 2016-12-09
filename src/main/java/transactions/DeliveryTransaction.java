@@ -52,9 +52,9 @@ public class DeliveryTransaction extends Transaction {
                 int min_o_id = Integer.parseInt(result.get(0).get(0));
 
                 // remove the above row from new-order...
-                this.model.delete().from("new_order")
-                          .where("no_w_id", "=", this.w_id + "")
-                          .where("no_d_id", "=", d_id + "").save();
+                // this.model.delete().from("new_order")
+                // .where("no_w_id", "=", this.w_id + "")
+                // .where("no_d_id", "=", d_id + "").save();
 
                 // select row from order table...
                 this.model.select("o_c_id")

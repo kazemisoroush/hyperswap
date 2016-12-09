@@ -226,6 +226,8 @@ public class Model {
                 " from " + Helpers.implode(this.tables, ", ") +
                 " where " + Helpers.implode(this.whereConditions, " and ");
 
+        System.out.println(this.query);
+
         // execute the query and return the result...
         ArrayList<ArrayList<String>> result = this.connector.select(this.query, this.columns.size());
 
