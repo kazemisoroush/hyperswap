@@ -3,6 +3,7 @@ package database;
 import main.Helpers;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -17,21 +18,9 @@ public class TransactionLogger {
     protected String pathToLogFile = "src/main/resources/logs/transaction.log";
 
     /**
-     * Instance of log file.
-     */
-    protected File logFile;
-
-    /**
      * Make new instance of transaction logger.
      */
     public TransactionLogger() {
-        // check if the logFile exists...
-        try {
-            this.logFile = new File(this.pathToLogFile);
-        } catch (NullPointerException e) {
-            // logFile does not exists...
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -50,7 +39,7 @@ public class TransactionLogger {
 
         // append all modified rows after the transaction identifier...
         // just add modified rows for each transaction in a new line of the log logFile...
-        Helpers.appendStringToFile(this.logFile, appendThis);
+        Helpers.appendStringToFile(this.pathToLogFile, appendThis);
     }
 
     /**
@@ -58,18 +47,29 @@ public class TransactionLogger {
      */
     public void truncateLogFile() {
         // make the log logFile empty...
-        this.logFile.delete();
+        FileWriter writer = null;
 
-        // make it again...
-        this.logFile = new File(this.pathToLogFile);
-        this.logFile.getParentFile().mkdirs();
         try {
-            this.logFile.createNewFile();
-        } catch (IOException e) {
+            File file = new File(this.pathToLogFile);
+            writer = new FileWriter(file);
+            writer.write("");
+            writer.flush();
+        } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
+    /**
+     * For testing purposes.
+     *
+     * @param arguments passed by command line interface.
+     */
     public static void main(String[] arguments) {
         TransactionLogger logger = new TransactionLogger();
 
@@ -81,9 +81,8 @@ public class TransactionLogger {
         list.add("3. Pouyan");
         list.add("4. Sara");
 
-        System.out.println("Truncate please...");
-
         logger.truncateLogFile();
+        System.out.println("Truncate please...");
         logger.logTransaction(list);
     }
 

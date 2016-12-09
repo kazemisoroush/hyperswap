@@ -1,12 +1,5 @@
 package parser;
 
-import structure.Edge;
-import structure.Node;
-import structure.Structure;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-
 public class Calculator {
 
     /**
@@ -16,30 +9,30 @@ public class Calculator {
      *
      * @return integer value of structure.
      */
-    public static int structureEnergy(Structure structure) {
-        // get graph nodes and edges...
-        ArrayList<Node> nodes = structure.getNodes();
-        ArrayList<Edge> edges = structure.getEdges();
-
-        // instantiate energy value...
-        int energySum = 0;
-
-        // sum the graph nodes energy...
-        for (Edge edge : edges) {
-            // get edge nodes...
-            HashSet<String> edgeNodes = edge.getNodes();
-
-            for (String nodeId : edgeNodes) {
-                // find the node instance...
-                // Node node = nodes.get(nodeId);
-
-                // energySum += nodeEnergy(structure, node);
-            }
-        }
-
-        // return the energy value...
-        return energySum / 2;
-    }
+    //    public static int structureEnergy(Structure structure) {
+    //        // get graph nodes and edges...
+    //        ArrayList<Node> nodes = structure.getNodes();
+    //        ArrayList<Edge> edges = structure.getEdges();
+    //
+    //        // instantiate energy value...
+    //        int energySum = 0;
+    //
+    //        // sum the graph nodes energy...
+    //        for (Edge edge : edges) {
+    //            // get edge nodes...
+    //            HashSet<String> edgeNodes = edge.getNodes();
+    //
+    //            for (String nodeId : edgeNodes) {
+    //                // find the node instance...
+    //                // Node node = nodes.get(nodeId);
+    //
+    //                // energySum += nodeEnergy(structure, node);
+    //            }
+    //        }
+    //
+    //        // return the energy value...
+    //        return energySum / 2;
+    //    }
 
     /**
      * Get energy of node in the graph.
@@ -49,24 +42,24 @@ public class Calculator {
      *
      * @return integer value of node energy.
      */
-    private static int nodeEnergy(Structure structure, Node node) {
-        // instantiate node energy...
-        int energy = 0;
-
-        // TODO: for each edge containing the node
-        // TODO: we must check for the neighbours
-        // TODO: and then for each neighbour we must increment the energy value
-
-        // iterate on nodes of graph to see which one is it's neighbour...
-        for (Node neighbour : structure.getNodes()) {
-            // check the neighbourhood...
-            // if (! node.hasNeighbour(neighbour.getId()))
-            // continue;
-
-            // increment the energy...
-            energy++;
-        }
-
-        return energy;
-    }
+    //    private static int nodeEnergy(Structure structure, Node node) {
+    //        // instantiate node energy...
+    //        int energy = 0;
+    //
+    //        // TODO: for each edge containing the node
+    //        // TODO: we must check for the neighbours
+    //        // TODO: and then for each neighbour we must increment the energy value
+    //
+    //        // iterate on nodes of graph to see which one is it's neighbour...
+    //        for (Node neighbour : structure.getNodes()) {
+    //            // check the neighbourhood...
+    //            // if (! node.hasNeighbour(neighbour.getId()))
+    //            // continue;
+    //
+    //            // increment the energy...
+    //            energy++;
+    //        }
+    //
+    //        return energy;
+    //    }
 }

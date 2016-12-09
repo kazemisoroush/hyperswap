@@ -22,54 +22,60 @@ public class GraphParser extends Parser {
         Graph graph = new Graph();
 
         // make a variable for vertex id...
-        //int nodeId = 0;
-        //
-        //// now loop on other string lines...
-        //// number of iterations must be equal to number of nodes in graph...
-        //for (Object line : lines) {
-        //    ArrayList<Integer> neighbourIds = this.parseLine((String) line);
-        //
-        //    // make a color for the node...
-        //    int nodeColor = this.randomInteger(Main.NUMBER_OF_COLORS);
-        //
-        //    // make a new node with random color...
-        //    Node node = new Node(nodeId, nodeColor);
-        //
-        //    // add neighbours to the node...
-        //    node.setNeighbours(neighbourIds);
-        //
-        //    // add node to the graph...
-        //    graph.addNode(node);
-        //
-        //    // add edges...
-        //    for (int neighbourId : neighbourIds) {
-        //        Edge edge = new Edge(graph.numberOfEdges() + 1, nodeId, neighbourId);
-        //        graph.addEdge(edge);
-        //    }
-        //
-        //    // increment the node id...
-        //    nodeId++;
-        //}
+        int edgeId = 0;
+
+        // now loop on other string lines...
+        // number of iterations must be equal to number of nodes in graph...
+        for (Object line : lines) {
+            ArrayList<String> edgeNodes;
+            edgeNodes = this.parseLine((String) line);
+
+            // check for new nodes and add them to the graph...
+            for (String firstNode : edgeNodes) {
+                for (String secondNode : edgeNodes) {
+                    if (firstNode.equals(secondNode)) {
+                        continue;
+                    }
+                }
+                // create new node with random color and add it to the graph...
+                // Node node = new Node(nodeIdentifier, this.randomInteger(Main.NUMBER_OF_COLORS));
+                // graph.addNode(node);
+            }
+
+            // create an hyperedge instance and add nodes to the hyperedge...
+            // Edge edge = new Edge(edgeId, edgeNodes);
+
+            // add the edge to the graph...
+            // graph.addEdge(edge);
+
+            // make neighbourhood relationship for all nodes in the hyperedge...
+            // graph.makeNeighbourhood(hyperedgeNodes);
+
+            // increment the node id...
+            edgeId++;
+        }
 
         // return the filled instance of graph...
         return graph;
     }
 
     @Override
-    public ArrayList<Integer> parseLine(String line) {
+    public ArrayList<String> parseLine(String line) {
         // split the line...
         String[] parts = line.split(" ");
 
         // make list of ids...
-        ArrayList<Integer> neighbourIds = new ArrayList<Integer>();
+        ArrayList<String> neighbourIds = new ArrayList<>();
 
         // extract the neighbours...
         for (String part : parts) {
             // skip empty strings...
-            if (part.equals("")) continue;
+            if (part.equals("")) {
+                continue;
+            }
 
             // ids are decremented to convert into indexes...
-            neighbourIds.add(Integer.parseInt(part) - 1);
+            neighbourIds.add(part);
         }
 
         // return list of indexes...

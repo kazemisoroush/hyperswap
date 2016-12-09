@@ -22,7 +22,7 @@ abstract public class Runner {
      *
      * @return time elapsed for benchmark to run.
      */
-    abstract long run();
+    abstract double run();
 
     /**
      * Start the clock for the benchmark. Must be called before running the benchmark.
@@ -41,9 +41,9 @@ abstract public class Runner {
     /**
      * Calculate the time elapsed for the benchmark running process.
      *
-     * @return value of time elapsed.
+     * @return value of time elapsed in seconds.
      */
-    protected long elapsed() {
-        return this.end - this.start;
+    protected double elapsed() {
+        return (this.end - this.start) * Math.pow(10, - 9);
     }
 }

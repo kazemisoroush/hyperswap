@@ -26,7 +26,7 @@ public class Benchmark extends Runner {
      *
      * @return time elapsed for running the benchmark.
      */
-    public long run() {
+    public double run() {
         System.out.println("Benchmark run started...");
 
         // begin the clock...

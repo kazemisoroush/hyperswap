@@ -275,33 +275,34 @@ public class Helpers {
     /**
      * Append string to logFile.
      *
-     * @param file   to be appended.
-     * @param string to append.
+     * @param filePath to be appended.
+     * @param string   to append.
      */
-    public static void appendStringToFile(File file, String string) {
-        BufferedWriter writer = null;
+    public static void appendStringToFile(String filePath, String string) {
+        BufferedWriter bufferedWriter = null;
+        FileWriter fileWriter = null;
 
         try {
-            writer = new BufferedWriter(new FileWriter(file, true));
+            fileWriter = new FileWriter(filePath, true);
+            bufferedWriter = new BufferedWriter(fileWriter);
 
             // write the string to the logFile...
-            writer.write(string);
+            bufferedWriter.write(string);
+
+            System.out.println("New line...");
 
             // also add new line at the end of the logFile...
-            //if (alsoAddNewLine) {
-            System.out.println("New line...");
-            writer.newLine();
-            writer.flush();
+            bufferedWriter.newLine();
+            bufferedWriter.flush();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            if (writer != null) {
-                try {
-                    // close the writer...
-                    writer.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            // close the writers...
+            try {
+                fileWriter.close();
+                bufferedWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -366,17 +367,24 @@ public class Helpers {
         String line;
 
         // initialize array of lines...
-        ArrayList<String> arrayOfLines = new ArrayList<String>();
+        ArrayList<String> arrayOfLines = new ArrayList<>();
+
+        // get the absolute path...
+        InputStream absolutePath = Helpers.class.getResourceAsStream(path);
+
+        // make the stream reader...
+        InputStreamReader streamReader = new InputStreamReader(absolutePath);
 
         // make a buffered reader to read the stream line by line...
-        BufferedReader reader = new BufferedReader(new InputStreamReader(Helpers.class.getResourceAsStream(path)));
+        BufferedReader reader = new BufferedReader(streamReader);
 
         // the first non-comment line of logFile is number of nodes and number of edges of the graph...
         // so we need to extract the first non-comment line...
         while ((line = reader.readLine()) != null) {
             // define comment for first of lines...
-            if (isComment(line))
+            if (isComment(line)) {
                 continue;
+            }
 
             // remove comment part of the line...
             line = cutCommentPart(line);

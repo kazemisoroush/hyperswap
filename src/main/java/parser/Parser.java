@@ -29,11 +29,6 @@ public abstract class Parser<Structure> {
     protected ArrayList<String> lines = new ArrayList<>();
 
     /**
-     * Other parameters extracted from first line of structure logFile.
-     */
-    // public ArrayList<String> otherParameters = new ArrayList<>();
-
-    /**
      * Initialize the structure.
      *
      * @param path to structure logFile.
@@ -41,26 +36,6 @@ public abstract class Parser<Structure> {
     public Parser(String path) throws IOException {
         // get array of logFile string lines...
         this.lines = Helpers.fileToArray(path);
-
-        // first line is the graph vertices and edges number...
-        // String firstLine = this.lines.get(0);
-
-        // remove analyzed line...
-        // this.lines.remove(0);
-
-        // split the first line and extract vertices and edges number...
-        // List<String> parts = new LinkedList<>(Helpers.explode(firstLine, " "));
-
-        // extract global information about the structure...
-        // this.numberOfNodes = Integer.parseInt(parts.get(0));
-        // this.numberOfEdges = Integer.parseInt(parts.get(1));
-
-        // remove extracted indexes...
-        // parts.remove(0);
-        // parts.remove(0);
-
-        // extract other parameters from first line...
-        // this.otherParameters.addAll(parts);
     }
 
     /**
@@ -71,7 +46,7 @@ public abstract class Parser<Structure> {
     public abstract Structure read();
 
     /**
-     * Parse a string line in data structure logFile.
+     * Parse a string line in data structure logFile into list of node identifiers.
      *
      * @param line to be parsed.
      *

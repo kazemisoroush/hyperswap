@@ -1,12 +1,9 @@
 package main;
 
 import analyzer.PartitioningAnalyzer;
-import benchmark.Benchmark;
-import exceptions.SchemaDoesNotExistsException;
 import parser.HypergraphParser;
 import partitioner.HyperSwap;
 import partitioner.JabeJa;
-import seeder.DatabaseSeeder;
 import structure.Hypergraph;
 
 import java.io.IOException;
@@ -21,12 +18,12 @@ public class Main {
     /**
      * Path to graph logFile.
      */
-    public static String GRAPH_PATH = "/graphs/test.graph";
+    public static String GRAPH_PATH = "/logs/transaction.log";
 
     /**
      * Path to hypergraph logFile.
      */
-    public static String HYPERGRAPH_PATH = "/logs/transaction.log";
+    public static String HYPERGRAPH_PATH = "/hypergraphs/test.graph"; // "/logs/transaction.log";
 
     /**
      * Total number of colors or partitions in the algorithm.
@@ -47,12 +44,12 @@ public class Main {
         try {
             // occupy the database with benchmark's seeder...
             // if the database has already been seeded then no action will be taken...
-            DatabaseSeeder seeder = new DatabaseSeeder();
-            seeder.occupy();
+            // DatabaseSeeder seeder = new DatabaseSeeder();
+            // seeder.occupy();
 
             // run the train benchmark and generate the transaction logs...
-            Benchmark train = new Benchmark(10);
-            train.run();
+            // Benchmark train = new Benchmark(10);
+            // train.run();
 
             // TODO: make the modeled graph with the transaction logs...
             // GraphParser graphParser = new GraphParser(Main.GRAPH_PATH);
@@ -62,6 +59,10 @@ public class Main {
             HypergraphParser hypergraphParser = new HypergraphParser(Main.HYPERGRAPH_PATH);
             Hypergraph hypergraph = hypergraphParser.read();
 
+            // System.out.println("...PARSED GRAPH...\n");
+            // System.out.println(graph);
+
+            System.out.println("...PARSED HYPERGRAPH...\n");
             System.out.println(hypergraph);
 
             // TODO: partition the graph with ja-be-ja algorithm...
@@ -75,7 +76,7 @@ public class Main {
             // TODO: now run the test benchmark and analyze the results...
             PartitioningAnalyzer analyzer = new PartitioningAnalyzer("performance");
             // analyzer.analyze(partitionedGraph, partitionedHyperGraph);
-        } catch (SchemaDoesNotExistsException | IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             // } catch (IOException e) {
             //e.printStackTrace();

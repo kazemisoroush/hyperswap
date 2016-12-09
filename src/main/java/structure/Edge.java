@@ -1,41 +1,9 @@
 package structure;
 
-import main.Helpers;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public class Edge {
-
-    /**
-     * structure.Edge's identifier
-     */
-    public int id;
-
-    /**
-     * List of nodes which this edge is relating them together.
-     */
-    protected HashSet<String> nodes = new HashSet<>();
-
-    /**
-     * Make new instance of this edge.
-     *
-     * @param id edge's identifier.
-     */
-    public Edge(int id) {
-        this.id = id;
-    }
-
-    /**
-     * Make new instance of this edge.
-     *
-     * @param id    edge's identifier.
-     * @param nodes which this edge is relating.
-     */
-    public Edge(int id, ArrayList<String> nodes) {
-        this.id = id;
-        this.nodes.addAll(nodes);
-    }
+public class Edge extends Hyperedge {
 
     /**
      * Make new instance of this edge.
@@ -83,21 +51,4 @@ public class Edge {
         return nodes;
     }
 
-    /**
-     * Check if two edges are equal.
-     *
-     * @param edge possible duplicate edge.
-     *
-     * @return boolean result of check.
-     */
-    public boolean equals(Edge edge) {
-        return this.nodes.equals(edge.nodes);
-    }
-
-    @Override
-    public String toString() {
-        String nodesString = Helpers.implode(this.nodes, ", ");
-
-        return String.format("{%s}", nodesString);
-    }
 }

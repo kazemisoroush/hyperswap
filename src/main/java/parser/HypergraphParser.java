@@ -1,7 +1,7 @@
 package parser;
 
 import main.Helpers;
-import structure.Edge;
+import structure.Hyperedge;
 import structure.Hypergraph;
 import structure.Node;
 
@@ -25,7 +25,7 @@ public class HypergraphParser extends Parser {
         Hypergraph hypergraph = new Hypergraph();
 
         // make a variable for edge id...
-        int edgeId = 0;
+        int edgeId = 1;
 
         // now loop on other string lines...
         // number of iterations must be equal to number of edges...
@@ -33,20 +33,16 @@ public class HypergraphParser extends Parser {
             // get hyperedge's nodes in single line of input logFile...
             ArrayList<String> hyperedgeNodes = this.parseLine((String) line);
 
+            // nodes per hyperedge foreach loop...
             // check for new nodes and add them to the hypergraph...
             for (String nodeIdentifier : hyperedgeNodes) {
-                // if the hypergraph has the node then we do not need to create it anymore...
-                if (hypergraph.hasNode(nodeIdentifier)) {
-                    continue;
-                }
-
                 // create new node with random color and add it to the hypergraph...
                 Node node = new Node(nodeIdentifier, this.randomInteger(Main.NUMBER_OF_COLORS));
                 hypergraph.addNode(node);
             }
 
             // create an hyperedge instance and add nodes to the hyperedge...
-            Edge hyperedge = new Edge(edgeId, hyperedgeNodes);
+            Hyperedge hyperedge = new Hyperedge(edgeId, hyperedgeNodes);
 
             // add the hyperedge to the hypergraph...
             hypergraph.addEdge(hyperedge);
