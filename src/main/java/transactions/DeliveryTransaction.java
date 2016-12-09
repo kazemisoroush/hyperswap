@@ -37,12 +37,17 @@ public class DeliveryTransaction extends Transaction {
         ArrayList<ArrayList<String>> result;
 
         try {
-            for (int d_id = 1; d_id <= 10; d_id++) {
+            for (int d_id = 2; d_id <= 10; d_id++) {
                 // select row from new-order table...
                 result = this.model.select("min(no_o_id) as min_o_id")
                                    .from("new_order")
                                    .where("no_w_id", "=", this.w_id + "")
                                    .where("no_d_id", "=", d_id + "").get();
+
+                System.out.println(result.get(0).get(0));
+                if (result.get(0).get(0) == null) {
+                    continue;
+                }
 
                 int min_o_id = Integer.parseInt(result.get(0).get(0));
 
@@ -53,7 +58,7 @@ public class DeliveryTransaction extends Transaction {
 
                 // select row from order table...
                 this.model.select("o_c_id")
-                          .from("order")
+                          .from("orders")
                           .where("o_w_id", "=", this.w_id + "")
                           .where("o_d_id", "=", d_id + "")
                           .where("o_id", "=", min_o_id + "")
@@ -62,7 +67,7 @@ public class DeliveryTransaction extends Transaction {
                 int o_c_id = Integer.parseInt(result.get(0).get(0));
 
                 // update the carrier id...
-                this.model.update("order")
+                this.model.update("orders")
                           .set("o_carrier_id", "o_carrier_id + 1")
                           .where("o_w_id", "=", this.w_id + "")
                           .where("o_d_id", "=", d_id + "")
@@ -74,16 +79,16 @@ public class DeliveryTransaction extends Transaction {
                           .from("order_line")
                           .where("ol_w_id", "=", this.w_id + "")
                           .where("ol_d_id", "=", d_id + "")
-                          .where("ol_id", "=", min_o_id + "")
+                          .where("ol_o_id", "=", min_o_id + "")
                           .get();
 
                 // update delivery dates...
                 this.model.update("order_line")
-                          .set("ol_delivery_d", this.ol_delivery_d)
+                          .set("ol_delivery_d", "'" + this.ol_delivery_d + "'")
                           .where("ol_w_id", "=", this.w_id + "")
                           .where("ol_d_id", "=", d_id + "")
-                          .where("ol_id", "=", min_o_id + "")
-                          .get();
+                          .where("ol_o_id", "=", min_o_id + "")
+                          .save();
 
                 // select a row from customer table...
                 this.model.select("c_first", "c_middle", "c_last", "c_street_1", "c_street_2", "c_city", "c_state", "c_zip", "c_phone", "c_since", "c_credit", "c_credit_lim", "c_discount", "c_balance")
@@ -91,7 +96,7 @@ public class DeliveryTransaction extends Transaction {
                           .where("c_w_id", "=", this.w_id + "")
                           .where("c_d_id", "=", d_id + "")
                           .where("c_id", "=", o_c_id + "")
-                          .save();
+                          .get();
 
                 this.model.update("customer")
                           .set("c_delivery_cnt", "c_delivery_cnt + 1")
@@ -109,7 +114,7 @@ public class DeliveryTransaction extends Transaction {
      * Actions needed to emulate the failed transaction.
      */
     protected void failTransaction() {
-        // ...
+        // ...THIS TYPE OF TRANSACTION NEVER FAILS...
     }
 
     /**
@@ -121,14 +126,4 @@ public class DeliveryTransaction extends Transaction {
         return false;
     }
 
-    /**
-     * Execute this transaction for testing purposes.
-     *
-     * @param arguments from console.
-     */
-    public static void main(String[] arguments) {
-        DeliveryTransaction transaction = new DeliveryTransaction();
-
-        transaction.process();
-    }
 }
