@@ -55,8 +55,8 @@ public class NewOrderTransaction extends Transaction {
     protected void succeedTransaction() {
         ArrayList<ArrayList<String>> result;
 
-        // select warehouse with input warehouse id...
         try {
+            // select warehouse with input warehouse id...
             result = this.model.select("w_tax")
                                .from("warehouse")
                                .where("w_id", "=", this.w_id + "").get();
@@ -150,6 +150,7 @@ public class NewOrderTransaction extends Transaction {
             double totalOrderAnount = amountSum * (1 - c_discount) * (1 + w_tax + d_tax);
 
         } catch (IncorrectQueryExecution e) {
+            e.printStackTrace();
         }
     }
 
@@ -197,14 +198,4 @@ public class NewOrderTransaction extends Transaction {
         return Helpers.getRandomBooleanWithProbability(failureProbability);
     }
 
-    /**
-     * Execute this transaction for testing purposes.
-     *
-     * @param arguments from console.
-     */
-    public static void main(String[] arguments) {
-        NewOrderTransaction transaction = new NewOrderTransaction();
-
-        transaction.process();
-    }
 }
