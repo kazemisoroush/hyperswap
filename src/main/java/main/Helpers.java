@@ -70,6 +70,38 @@ public class Helpers {
     }
 
     /**
+     * Get `count` number of random integers in [min ... max] range...
+     *
+     * @param min   value of range.
+     * @param max   value of range.
+     * @param count of random numbers.
+     *
+     * @return list of random integers.
+     */
+    public static ArrayList<Integer> getRandomIntegers(int min, int max, int count) {
+        ArrayList<Integer> numbers = new ArrayList<>();
+
+        // in this condition it would be not possible to get random numbers...
+        if (max - min < count) {
+            return numbers;
+        }
+
+        Integer number;
+
+        for (int i = 0; i < count; i++) {
+            // do not add duplicate numbers...
+            do {
+                number = getRandomInteger(min, max);
+            } while (numbers.contains(number));
+
+            // we are now sure that this number is not redundant...
+            numbers.add(number);
+        }
+
+        return numbers;
+    }
+
+    /**
      * Generate random double between min and max.
      *
      * @param min lower bound of random number.

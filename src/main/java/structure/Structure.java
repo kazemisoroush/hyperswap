@@ -53,6 +53,15 @@ public abstract class Structure<N, E> {
     public abstract int addNode(N node);
 
     /**
+     * Getter for nodes of structure.
+     *
+     * @return list of nodes.
+     */
+    public ArrayList<N> getNodes() {
+        return this.nodes;
+    }
+
+    /**
      * Add a edge to the graph.
      *
      * @param edge to be added.
