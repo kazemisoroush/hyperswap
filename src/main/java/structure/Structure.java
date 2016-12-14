@@ -62,6 +62,15 @@ public abstract class Structure<N, E> {
     }
 
     /**
+     * Get neighbors for a specific node.
+     *
+     * @param node which we need it's neighbors.
+     *
+     * @return list of neighbors.
+     */
+    public abstract ArrayList<N> getNeighbors(Node node);
+
+    /**
      * Add a edge to the graph.
      *
      * @param edge to be added.

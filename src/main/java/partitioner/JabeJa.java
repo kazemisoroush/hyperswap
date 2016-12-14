@@ -50,7 +50,6 @@ public class JabeJa extends Partitioner<Graph> {
         // we have the graph...
         Graph graph = this.structure;
 
-        // TODO...
         return graph.getNeighbors(node);
     }
 
