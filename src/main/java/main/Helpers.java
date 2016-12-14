@@ -70,7 +70,7 @@ public class Helpers {
     }
 
     /**
-     * Get `count` number of random integers in [min ... max] range...
+     * Get `count` number of random integers in [min ... max] range.
      *
      * @param min   value of range.
      * @param max   value of range.
@@ -83,7 +83,7 @@ public class Helpers {
 
         // in this condition it would be not possible to get random numbers...
         if (max - min < count) {
-            return numbers;
+            count = max - min - 1;
         }
 
         Integer number;

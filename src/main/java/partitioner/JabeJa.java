@@ -8,6 +8,11 @@ import java.util.ArrayList;
 
 public class JabeJa extends Partitioner<Graph> {
 
+    /**
+     * Create new instance of partitioner.
+     *
+     * @param graph to be partitioned.
+     */
     public JabeJa(Graph graph) {
         super(graph);
     }

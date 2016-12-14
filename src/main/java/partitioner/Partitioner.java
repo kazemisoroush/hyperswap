@@ -31,11 +31,11 @@ public abstract class Partitioner<S> {
 
     protected void sampleAndSwap(Node node) {
         // find partner from neighbors...
-        Node partner = this.findPartner(node, this.getNeighbors(node), this.temperature);
+        Node partner = this.findPartner(node, this.getNeighbors(node));
 
         // find partner from sample...
         if (partner == null) {
-            partner = this.findPartner(node, this.getSample(node), this.temperature);
+            partner = this.findPartner(node, this.getSample(node));
         }
 
         // do the swap if you found any partners...
@@ -52,12 +52,20 @@ public abstract class Partitioner<S> {
         }
     }
 
-    protected Node findPartner(Node p, ArrayList<Node> nodes, int temperature) {
+    /**
+     * Find best partner to swap from input candidate nodes for node p.
+     *
+     * @param p          to find partners for.
+     * @param candidates from which we need to extract best swap partner.
+     *
+     * @return best swap partner for the node.
+     */
+    protected Node findPartner(Node p, ArrayList<Node> candidates) {
         double highest = 0;
 
         Node bestPartner = null;
 
-        for (Node q : nodes) {
+        for (Node q : candidates) {
             int dpp = this.getDegree(p, p.getColor());
             int dqq = this.getDegree(q, q.getColor());
 
@@ -78,20 +86,6 @@ public abstract class Partitioner<S> {
         return bestPartner;
     }
 
-    protected abstract int energy();
-
-    protected abstract ArrayList<Node> getNeighbors(Node node);
-
-    protected abstract ArrayList<Node> getSample(Node node);
-
-    protected void swap(Node first, Node second) {
-        int tempColor = first.getColor();
-
-        first.setColor(second.getColor());
-
-        second.setColor(tempColor);
-    }
-
     /**
      * get number of neighbors of this node with this input colors.
      *
@@ -110,5 +104,47 @@ public abstract class Partitioner<S> {
         }
 
         return degree;
+    }
+
+    /**
+     * Calculates initial energy of the structure.
+     *
+     * @return integer value of energy.
+     */
+    protected abstract int energy();
+
+    /**
+     * Get array list of neighbors for the node in this structure.
+     *
+     * @param node to find neighbors.
+     *
+     * @return list of neighbors.
+     */
+    protected abstract ArrayList<Node> getNeighbors(Node node);
+
+    /**
+     * Retrieve a list of sample nodes from nodes in the structure.
+     *
+     * @param node to find sample for.
+     *
+     * @return list of sample nodes.
+     */
+    protected abstract ArrayList<Node> getSample(Node node);
+
+    /**
+     * Swap color of two nodes.
+     *
+     * @param first  node.
+     * @param second node.
+     */
+    protected void swap(Node first, Node second) {
+        // increment number of swaps...
+        this.swaps++;
+
+        int tempColor = first.getColor();
+
+        first.setColor(second.getColor());
+
+        second.setColor(tempColor);
     }
 }
