@@ -1,6 +1,8 @@
 package partitioner;
 
+import logger.Logger;
 import main.Helpers;
+import main.Main;
 import structure.Hypergraph;
 import structure.Node;
 
@@ -15,6 +17,8 @@ public class HyperSwap extends Partitioner<Hypergraph> {
      */
     public HyperSwap(Hypergraph hypergraph) {
         super(hypergraph);
+
+        this.temperature = structure.energy();
     }
 
     @Override
@@ -22,27 +26,23 @@ public class HyperSwap extends Partitioner<Hypergraph> {
         // finish the algorithm in two conditions...
         // 1. limited algorithm rounds...
         // 2. temperature cool enough...
-        for (int iteration = 1; iteration <= this.rounds || this.temperature == 1; iteration++) {
+        for (int iteration = 1; iteration <= Main.ROUNDS; iteration++) {
+            Logger.log("Start Round #%s", iteration);
+
             for (Node node : this.structure.getNodes()) {
                 this.sampleAndSwap(node);
             }
+
+            // hypergraph is cool enough...
+            if (this.temperature == 1) {
+                break;
+            }
         }
+
+        Logger.log("Number of Swaps: %s", this.swaps);
     }
 
     @Override
-    protected int energy() {
-        // TODO...
-        return 0;
-    }
-
-    @Override
-    protected ArrayList<Node> getNeighbors(Node node) {
-        // we have the hypergraph...
-        Hypergraph hypergraph = this.structure;
-
-        return hypergraph.getNeighbors(node);
-    }
-
     protected ArrayList<Node> getSample(Node node) {
         // we have the graph...
         Hypergraph hypergraph = this.structure;

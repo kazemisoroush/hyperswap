@@ -2,16 +2,23 @@ package structure;
 
 import main.Helpers;
 
+import java.util.ArrayList;
+
 public class Graph extends Structure<Node, Edge> {
 
     @Override
-    public int addNode(Node node) {
-        return 0;
+    public Node addNode(Node node) {
+        return node;
     }
 
     @Override
-    public int addEdge(Edge edge) {
-        return 0;
+    public ArrayList<Node> getNeighbors(Node node) {
+        return null;
+    }
+
+    @Override
+    public Edge addEdge(Edge edge) {
+        return edge;
     }
 
     @Override

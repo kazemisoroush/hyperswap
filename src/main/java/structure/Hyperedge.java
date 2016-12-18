@@ -3,19 +3,18 @@ package structure;
 import main.Helpers;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 public class Hyperedge {
 
     /**
-     * structure.Edge's identifier
+     * Edge's identifier
      */
     public int id;
 
     /**
      * List of nodes which this edge is relating them together.
      */
-    protected HashSet<String> nodes = new HashSet<>();
+    protected ArrayList<Node> nodes = new ArrayList<>();
 
     /**
      * No args constructor needed.
@@ -26,25 +25,10 @@ public class Hyperedge {
     /**
      * Make new instance of this edge.
      *
-     * @param id    edge's identifier.
-     * @param nodes which this edge is relating.
+     * @param id edge's identifier.
      */
-    public Hyperedge(int id, ArrayList<String> nodes) {
+    public Hyperedge(int id) {
         this.id = id;
-        this.nodes.addAll(nodes);
-    }
-
-    /**
-     * Add nodes to this edge.
-     *
-     * @param nodes which this edge is relating.
-     *
-     * @return size of nodes.
-     */
-    public int addNodes(ArrayList<String> nodes) {
-        this.nodes.addAll(nodes);
-
-        return this.nodes.size();
     }
 
     /**
@@ -54,6 +38,32 @@ public class Hyperedge {
      */
     public int getId() {
         return id;
+    }
+
+    /**
+     * Add node to this edge.
+     *
+     * @param node which this edge is relating.
+     *
+     * @return real node instance.
+     */
+    public int addNode(Node node) {
+        // add the node to the node list...
+        // if and only if it's a new node...
+        if (! this.nodes.contains(node)) {
+            this.nodes.add(node);
+        }
+
+        return this.nodes.size();
+    }
+
+    /**
+     * Get nodes in this hyperedge.
+     *
+     * @return set of nodes.
+     */
+    public ArrayList<Node> getNodes() {
+        return nodes;
     }
 
     @Override

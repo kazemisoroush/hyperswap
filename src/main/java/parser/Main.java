@@ -19,7 +19,7 @@ public class Main {
     /**
      * Total number of colors or partitions in the algorithm.
      */
-    public static int NUMBER_OF_COLORS = 4;
+    public static int NUMBER_OF_COLORS = 2;
 
     /**
      * Seed value for random number generator function.

@@ -1,7 +1,6 @@
 package structure;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 public class Edge extends Hyperedge {
 
@@ -12,7 +11,7 @@ public class Edge extends Hyperedge {
      * @param firstNodeId  integer value of first node identifier.
      * @param secondNodeId integer value of second node identifier.
      */
-    public Edge(int id, String firstNodeId, String secondNodeId) {
+    public Edge(int id, Node firstNodeId, Node secondNodeId) {
         this.id = id;
         this.nodes.add(firstNodeId);
         this.nodes.add(secondNodeId);
@@ -25,7 +24,7 @@ public class Edge extends Hyperedge {
      *
      * @return size of nodes.
      */
-    public int addNodes(ArrayList<String> nodes) {
+    public int addNodes(ArrayList<Node> nodes) {
         this.nodes.addAll(nodes);
 
         return this.nodes.size();
@@ -47,7 +46,7 @@ public class Edge extends Hyperedge {
      *
      * @return node list.
      */
-    public HashSet<String> getNodes() {
+    public ArrayList<Node> getNodes() {
         return nodes;
     }
 

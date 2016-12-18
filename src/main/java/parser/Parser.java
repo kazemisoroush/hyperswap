@@ -4,24 +4,8 @@ import main.Helpers;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
 
 public abstract class Parser<Structure> {
-
-    /**
-     * Number of nodes from parsed files.
-     */
-    public int numberOfNodes;
-
-    /**
-     * Number of edges from parsed files.
-     */
-    // public int numberOfEdges;
-
-    /**
-     * Random integer generator.
-     */
-    protected Random random = new Random(Main.SEED);
 
     /**
      * Lines of structure logFile.
@@ -53,16 +37,5 @@ public abstract class Parser<Structure> {
      * @return array of neighbour ids.
      */
     public abstract ArrayList<Integer> parseLine(String line);
-
-    /**
-     * Generate random integer with input size.
-     *
-     * @param size of random integer.
-     *
-     * @return random integer.
-     */
-    protected int randomInteger(int size) {
-        return this.random.nextInt(size);
-    }
 
 }

@@ -5,24 +5,24 @@ import java.util.ArrayList;
 public class Node {
 
     /**
-     * structure.Node identifier.
+     * Node identifier.
      */
     private String id;
 
     /**
-     * structure.Node current color.
+     * Node current color.
      */
     private int color;
 
     /**
-     * structure.Node initial color.
+     * Node initial color.
      */
     private int initColor;
 
     /**
-     * List of node's neighbours.
+     * Node's edges.
      */
-    private ArrayList<String> neighbours;
+    public ArrayList<Hyperedge> hyperedges;
 
     /**
      * Initialize node object.
@@ -34,7 +34,7 @@ public class Node {
         this.id = id;
         this.color = color;
         this.initColor = color;
-        this.neighbours = new ArrayList<>();
+        this.hyperedges = new ArrayList<>();
     }
 
     /**
@@ -74,55 +74,142 @@ public class Node {
     }
 
     /**
-     * Set neighbours for this node. Automatically skips duplicate or self neighbour relations.
+     * Energy of node within each edge of it.
      *
-     * @param neighbours list of node neighbours.
+     * @return double value of energy.
      */
-    public void setNeighbours(ArrayList<String> neighbours) {
-        for (String id : neighbours) {
-            // do not add duplicate neighbours...
-            if (this.id.equals(id) || this.neighbours.contains(id))
+    public double energy() {
+        this.energy(this.color);
+    }
+
+    /**
+     * Energy of this node if it's color is equal to input color.
+     *
+     * @param color which we need energy of node with it.
+     *
+     * @return double value of energy.
+     */
+    public double energy(int color) {
+
+        double energy = 0;
+
+        // we need summation of dissimilarities in node within each edge of the node...
+        for (Hyperedge edge : this.hyperedges) {
+            // edge with one node has no dissimilarity...
+            if (edge.getNodes().size() == 1) {
                 continue;
+            }
 
-            // make the neighbour relation...
-            this.neighbours.add(id);
+            int dissimilarity = 0;
+
+            // search for each neighbor...
+            for (Node neighbor : edge.getNodes()) {
+                if (neighbor.getColor() != color) {
+                    dissimilarity++;
+                }
+            }
+
+            energy += dissimilarity / (edge.getNodes().size() - 1);
         }
+
+        return energy;
     }
 
     /**
-     * Get list of neighbours for this vertex.
+     * Add single hyperedge to the node.
      *
-     * @return nodes neighbours list.
+     * @param hyperedge to add.
      */
-    public ArrayList<String> getNeighbours() {
-        return this.neighbours;
+    public void addHyperedge(Hyperedge hyperedge) {
+        this.hyperedges.add(hyperedge);
     }
 
     /**
-     * Get degree of vertex.
+     * Swap color of this node with input node.
      *
-     * @return node degree.
+     * @param node to swap colors.
+     *
+     * @return boolean value of success or failure.
      */
-    public int getDegree() {
-        return this.neighbours.size();
+    public boolean swap(Node node) {
+        if (node.getId().equals(this.getId())) {
+            return false;
+        }
+
+        int tempColor = this.getColor();
+
+        this.setColor(node.getColor());
+
+        node.setColor(tempColor);
+
+        return true;
     }
 
     /**
-     * Check if this node has this id in it's neighbours.
+     * Return list of neighbors.
      *
-     * @param id of neighbour.
-     *
-     * @return boolean result of check.
+     * @return list of neighbors.
      */
-    public boolean hasNeighbour(String id) {
-        // iterate on neighbours...
-        for (String neighbourId : this.neighbours) {
-            if (neighbourId.equals(id)) {
-                return true;
+    public ArrayList<Node> getNeighbors() {
+        ArrayList<Node> neighbors = new ArrayList<>();
+
+        for (Hyperedge hyperedges : this.hyperedges) {
+            for (Node neighbor : hyperedges.nodes) {
+                // avoid self add or duplicate...
+                if (neighbor.getId().equals(this.getId()) || neighbors.contains(neighbor)) {
+                    continue;
+                }
+                // add the neighbor to the list...
+                neighbors.add(neighbor);
             }
         }
 
-        return false;
+        return neighbors;
+    }
+
+    /**
+     * Return list of neighbors.
+     *
+     * @param color to match neighbors.
+     *
+     * @return list of neighbors.
+     */
+    public ArrayList<Node> getNeighbors(int color) {
+        ArrayList<Node> neighbors = new ArrayList<>();
+
+        for (Hyperedge hyperedges : this.hyperedges) {
+            for (Node neighbor : hyperedges.nodes) {
+                // avoid self add or duplicate...
+                if (neighbor.getId().equals(this.getId()) || neighbors.contains(neighbor) || neighbor.getColor() != color) {
+                    continue;
+                }
+
+                // add the neighbor to the list...
+                neighbors.add(neighbor);
+            }
+        }
+
+        return neighbors;
+    }
+
+    /**
+     * Get degree of hypergraph.
+     *
+     * @return number of hyperedges.
+     */
+    public int getDegree() {
+        return this.getNeighbors().size();
+    }
+
+    /**
+     * Get degree of hypergraph.
+     *
+     * @param color to search in neighbors.
+     *
+     * @return number of hyperedges.
+     */
+    public int getDegree(int color) {
+        return this.getNeighbors(color).size();
     }
 
     /**
@@ -132,6 +219,6 @@ public class Node {
      */
     @Override
     public String toString() {
-        return String.format("{%s [%s]}", this.id, this.color);
+        return String.format("[%s c=%s e=%s]", this.getId(), this.getColor(), this.energy());
     }
 }

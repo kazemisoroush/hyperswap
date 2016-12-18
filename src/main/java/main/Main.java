@@ -1,12 +1,9 @@
 package main;
 
-import analyzer.PartitioningAnalyzer;
+import logger.Logger;
 import parser.HypergraphParser;
 import partitioner.HyperSwap;
-import partitioner.JabeJa;
 import structure.Hypergraph;
-
-import java.io.IOException;
 
 public class Main {
 
@@ -36,6 +33,21 @@ public class Main {
     public static int SEED = 654;
 
     /**
+     * Maximum number of rounds in which iterative partitioning algorithms will run.
+     */
+    public static int ROUNDS = 10;
+
+    /**
+     * Variable which determines speed of cooling process.
+     */
+    public static double DELTA = 0.003;
+
+    /**
+     * Parameter of energy in ja-be-ja algorithm.
+     */
+    public static double ALPHA = 1;
+
+    /**
      * Run the project.
      *
      * @param arguments from console.
@@ -48,10 +60,10 @@ public class Main {
             // seeder.occupy();
 
             // run the train benchmark and generate the transaction logs...
-            // Benchmark train = new Benchmark(10);
+            // Benchmark train = new Benchmark(11);
             // train.run();
 
-            // TODO: make the modeled graph with the transaction logs...
+            // make the modeled graph with the transaction logs...
             // GraphParser graphParser = new GraphParser(Main.GRAPH_PATH);
             // Graph graph = graphParser.read();
 
@@ -62,24 +74,25 @@ public class Main {
             // System.out.println("...PARSED GRAPH...\n");
             // System.out.println(graph);
 
-            System.out.println("...PARSED HYPERGRAPH...\n");
-            System.out.println(hypergraph);
+            Logger.log("...PARSED HYPERGRAPH...\n");
+            Logger.log(hypergraph);
 
-            // TODO: partition the graph with ja-be-ja algorithm...
-            JabeJa jabeJa = new JabeJa();
-            // partitionedGraph = jabeJa.partition(graph);
+            // partition the graph with ja-be-ja algorithm...
+            // JabeJa jabeJa = new JabeJa(graph);
+            // jabeJa.partition();
 
-            // TODO: partition the hypergraph with hyper-swap algorithm...
-            HyperSwap hyperSwap = new HyperSwap();
-            // partitionedHyperGraph = hyperSwap.partition(hypergraph);
+            // partition the hypergraph with hyper-swap algorithm...
+            HyperSwap hyperSwap = new HyperSwap(hypergraph);
+            hyperSwap.partition();
+
+            Logger.log("...PARTITIONED HYPERGRAPH...\n");
+            Logger.log(hypergraph);
 
             // TODO: now run the test benchmark and analyze the results...
-            PartitioningAnalyzer analyzer = new PartitioningAnalyzer("performance");
+            // PartitioningAnalyzer analyzer = new PartitioningAnalyzer("performance");
             // analyzer.analyze(partitionedGraph, partitionedHyperGraph);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-            // } catch (IOException e) {
-            //e.printStackTrace();
         }
 
     }

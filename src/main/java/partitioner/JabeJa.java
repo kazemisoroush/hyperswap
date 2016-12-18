@@ -1,6 +1,7 @@
 package partitioner;
 
 import main.Helpers;
+import main.Main;
 import structure.Graph;
 import structure.Node;
 
@@ -22,7 +23,7 @@ public class JabeJa extends Partitioner<Graph> {
         // finish the algorithm in two conditions...
         // 1. limited algorithm rounds...
         // 2. temperature cool enough...
-        for (int iteration = 1; iteration <= this.rounds || this.temperature == 1; iteration++) {
+        for (int iteration = 1; iteration <= Main.ROUNDS || this.temperature == 1; iteration++) {
             for (Node node : this.structure.getNodes()) {
                 this.sampleAndSwap(node);
             }

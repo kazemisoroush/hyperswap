@@ -4,15 +4,9 @@ import java.util.ArrayList;
 
 public abstract class Structure<N, E> {
 
-    protected ArrayList<ArrayList<Boolean>> matrix = new ArrayList<>();
-
     protected ArrayList<N> nodes;
 
     protected ArrayList<E> edges;
-
-    protected ArrayList<String> nodeIndices = new ArrayList<>();
-
-    protected ArrayList<Integer> edgeIndices = new ArrayList<>();
 
     /**
      * Initialize the graph with empty set of nodes.
@@ -50,7 +44,7 @@ public abstract class Structure<N, E> {
      *
      * @return size of nodes.
      */
-    public abstract int addNode(N node);
+    public abstract N addNode(N node);
 
     /**
      * Getter for nodes of structure.
@@ -77,7 +71,7 @@ public abstract class Structure<N, E> {
      *
      * @return size of nodes.
      */
-    public abstract int addEdge(E edge);
+    public abstract E addEdge(E edge);
 
     /**
      * Check if the structure contains this node type. Each structure must have this checker method.
@@ -96,4 +90,6 @@ public abstract class Structure<N, E> {
      * @return boolean value of the check.
      */
     public abstract boolean hasEdge(E edge);
+
+    public abstract double energy();
 }
