@@ -28,6 +28,11 @@ public class Node {
     public ArrayList<Hyperedge> hyperedges;
 
     /**
+     * Determine whether the node can swap color or not.
+     */
+    public boolean canSwap = true;
+
+    /**
      * Initialize node object.
      *
      * @param id    node's identifier.
@@ -141,11 +146,23 @@ public class Node {
             return false;
         }
 
+        // check if the partner can swap color...
+        if (! node.canSwap) {
+            return false;
+        }
+
+        // make the node busy and enter the mutex...
+        node.canSwap = false;
+        this.canSwap = false;
+
+        // swap colors...
         int tempColor = this.getColor();
-
         this.setColor(node.getColor());
-
         node.setColor(tempColor);
+
+        // exit mutex...
+        node.canSwap = true;
+        this.canSwap = true;
 
         return true;
     }
