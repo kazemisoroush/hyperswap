@@ -10,7 +10,7 @@ public class Main {
     /**
      * Size of uniform sample gathered from the structure.
      */
-    public static final int SAMPLE_SIZE = 1;
+    public static final int SAMPLE_SIZE = 0;
 
     /**
      * Each line starting with these strings assumed as comment line.
@@ -45,7 +45,7 @@ public class Main {
     /**
      * Variable which determines speed of cooling process.
      */
-    public static double DELTA = 0.003;
+    public static double DELTA = 0.03;
 
     /**
      * Parameter of energy in ja-be-ja algorithm.

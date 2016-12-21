@@ -66,11 +66,11 @@ public class HyperSwap extends Partitioner<Hypergraph> {
             active.addAll(next);
 
             // update the temperature...
-            temperature -= Main.DELTA;
+            this.temperature -= Main.DELTA;
 
             // limit the temperature...
             // hypergraph is cool enough...
-            if (temperature <= 1) {
+            if (this.temperature <= 1) {
                 break;
             }
         }
