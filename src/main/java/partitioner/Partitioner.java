@@ -75,7 +75,7 @@ public abstract class Partitioner<Structure> {
      * @param p          to find partners for.
      * @param candidates from which we need to extract best swap partner.
      *
-     * @return best swap partner for the node.
+     * @return best swap partner for the node or null.
      */
     private Node findPartner(Node p, ArrayList<Node> candidates) {
         double highest = 0;
