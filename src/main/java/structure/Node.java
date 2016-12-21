@@ -222,6 +222,11 @@ public class Node {
      * policy first the immediate neighbor nodes are selected (i.e., the local policy). If this selection fails to
      * improve the pair-wise utility, the node is given another chance for improvement, by letting it to select nodes
      * from its random sample.
+     *
+     * @param temperature is simulated annealing cooling factor.
+     * @param sampler     object which samples nodes from structure.
+     *
+     * @return true if any swapping happened.
      */
     public boolean sampleAndSwap(double temperature, HypergraphSampler sampler) {
         // find partner from neighbors...
