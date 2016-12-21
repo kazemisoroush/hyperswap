@@ -30,7 +30,6 @@ public class JabeJa extends Partitioner<Graph> {
         }
     }
 
-    @Override
     protected int energy() {
         // we have the graph...
         Graph graph = this.structure;
@@ -51,7 +50,6 @@ public class JabeJa extends Partitioner<Graph> {
         return energy / 2;
     }
 
-    @Override
     protected ArrayList<Node> getNeighbors(Node node) {
         // we have the graph...
         Graph graph = this.structure;

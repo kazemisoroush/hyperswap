@@ -8,6 +8,11 @@ import structure.Hypergraph;
 public class Main {
 
     /**
+     * Size of uniform sample nodes gathered from the structure.
+     */
+    public static final int SAMPLE_SIZE = 5;
+
+    /**
      * Each line starting with these strings assumed as comment line.
      */
     public static String[] COMMENTS = {"%", "//", "#"};
@@ -25,7 +30,7 @@ public class Main {
     /**
      * Total number of colors or partitions in the algorithm.
      */
-    public static int NUMBER_OF_COLORS = 4;
+    public static int NUMBER_OF_COLORS = 2;
 
     /**
      * Seed value for random number generator function.
@@ -35,7 +40,7 @@ public class Main {
     /**
      * Maximum number of rounds in which iterative partitioning algorithms will run.
      */
-    public static int ROUNDS = 10;
+    public static int ROUNDS = 10000;
 
     /**
      * Variable which determines speed of cooling process.

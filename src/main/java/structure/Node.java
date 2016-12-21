@@ -79,11 +79,12 @@ public class Node {
      * @return double value of energy.
      */
     public double energy() {
-        this.energy(this.color);
+        return this.energy(this.color);
     }
 
     /**
-     * Energy of this node if it's color is equal to input color.
+     * Energy of this node if it's color is equal to input color. This is equal to dissimilarity of node in each of it's
+     * hyperedges. For each hyperedge just count the dissimilarity and divide it by size of neighbors inside it.
      *
      * @param color which we need energy of node with it.
      *
@@ -100,7 +101,7 @@ public class Node {
                 continue;
             }
 
-            int dissimilarity = 0;
+            double dissimilarity = 0;
 
             // search for each neighbor...
             for (Node neighbor : edge.getNodes()) {
@@ -132,6 +133,7 @@ public class Node {
      * @return boolean value of success or failure.
      */
     public boolean swap(Node node) {
+        // check if nodes are equal...
         if (node.getId().equals(this.getId())) {
             return false;
         }

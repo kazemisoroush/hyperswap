@@ -17,8 +17,6 @@ public class HyperSwap extends Partitioner<Hypergraph> {
      */
     public HyperSwap(Hypergraph hypergraph) {
         super(hypergraph);
-
-        this.temperature = structure.energy();
     }
 
     @Override
@@ -27,7 +25,7 @@ public class HyperSwap extends Partitioner<Hypergraph> {
         // 1. limited algorithm rounds...
         // 2. temperature cool enough...
         for (int iteration = 1; iteration <= Main.ROUNDS; iteration++) {
-            Logger.log("Start Round #%s", iteration);
+            Logger.log("Start Round #%s, Temp = %s", iteration, this.temperature);
 
             for (Node node : this.structure.getNodes()) {
                 this.sampleAndSwap(node);
@@ -48,8 +46,8 @@ public class HyperSwap extends Partitioner<Hypergraph> {
         Hypergraph hypergraph = this.structure;
         ArrayList<Node> samples = new ArrayList<>();
 
-        // size of random sample is always 10...
-        ArrayList<Integer> indexes = Helpers.getRandomIntegers(0, hypergraph.getNodes().size() - 1, 10);
+        // size of random sample is set inside main class...
+        ArrayList<Integer> indexes = Helpers.getRandomIntegers(0, hypergraph.getNodes().size() - 1, Main.SAMPLE_SIZE);
 
         // add the samples...
         for (int index : indexes) {

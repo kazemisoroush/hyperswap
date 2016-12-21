@@ -1,27 +1,34 @@
 package partitioner;
 
+import main.Main;
 import structure.Node;
 
 import java.util.ArrayList;
 
-public abstract class Partitioner<S> {
+public abstract class Partitioner<Structure> {
 
+    /**
+     * Total number of swaps for partitioner.
+     */
     protected int swaps = 0;
 
-    protected int rounds = 0;
+    /**
+     * Temperature variable for simulated annealing cooling process.
+     */
+    protected double temperature = 10;
 
-    protected int temperature = 0;
+    /**
+     * Data structure to partition.
+     */
+    protected Structure structure = null;
 
-    protected double delta = 0.003;
-
-    protected double alpha = 1;
-
-    protected S structure = null;
-
-    public Partitioner(S structure) {
+    /**
+     * Initialize the partitioner.
+     *
+     * @param structure to be partitioned.
+     */
+    public Partitioner(Structure structure) {
         this.structure = structure;
-
-        temperature = this.energy();
     }
 
     /**
@@ -29,9 +36,17 @@ public abstract class Partitioner<S> {
      */
     protected abstract void partition();
 
+    /**
+     * Sample and Swap function from ja-be-ja algorithm. This method uses hybrid partner selection policy. In this
+     * policy first the immediate neighbor nodes are selected (i.e., the local policy). If this selection fails to
+     * improve the pair-wise utility, the node is given another chance for improvement, by letting it to select nodes
+     * from its random sample.
+     *
+     * @param node to execute sample and swap on.
+     */
     protected void sampleAndSwap(Node node) {
         // find partner from neighbors...
-        Node partner = this.findPartner(node, this.getNeighbors(node));
+        Node partner = this.findPartner(node, node.getNeighbors());
 
         // find partner from sample...
         if (partner == null) {
@@ -40,11 +55,13 @@ public abstract class Partitioner<S> {
 
         // do the swap if you found any partners...
         if (partner != null) {
-            this.swap(node, partner);
+            // swap node with it's partner and don't forget to increase the swaps counter...
+            node.swap(partner);
+            this.swaps++;
         }
 
         // update the temperature...
-        this.temperature -= this.delta;
+        this.temperature -= Main.DELTA;
 
         // limit the temperature...
         if (this.temperature < 1) {
@@ -60,22 +77,24 @@ public abstract class Partitioner<S> {
      *
      * @return best swap partner for the node.
      */
-    protected Node findPartner(Node p, ArrayList<Node> candidates) {
+    private Node findPartner(Node p, ArrayList<Node> candidates) {
         double highest = 0;
 
         Node bestPartner = null;
 
+        // test all candidates...
         for (Node q : candidates) {
-            int dpp = this.getDegree(p, p.getColor());
-            int dqq = this.getDegree(q, q.getColor());
+            double dpp = p.energy();
+            double dqq = q.energy();
 
-            double before = Math.pow(dpp, this.alpha) + Math.pow(dqq, this.alpha);
+            double before = Math.pow(dpp, Main.ALPHA) + Math.pow(dqq, Main.ALPHA);
 
-            int dpq = this.getDegree(p, q.getColor());
-            int dqp = this.getDegree(q, p.getColor());
+            double dpq = p.energy(q.getColor());
+            double dqp = q.energy(p.getColor());
 
-            double after = Math.pow(dpq, this.alpha) + Math.pow(dqp, this.alpha);
+            double after = Math.pow(dpq, Main.ALPHA) + Math.pow(dqp, Main.ALPHA);
 
+            // the decision criterion...
             if (after * this.temperature > before && after > highest) {
                 bestPartner = q;
 
@@ -87,42 +106,6 @@ public abstract class Partitioner<S> {
     }
 
     /**
-     * get number of neighbors of this node with this input colors.
-     *
-     * @param node  to determine the degree.
-     * @param color desired.
-     *
-     * @return the degree.
-     */
-    protected int getDegree(Node node, int color) {
-        int degree = 0;
-
-        for (Node neighbor : this.getNeighbors(node)) {
-            if (neighbor.getColor() == color) {
-                degree++;
-            }
-        }
-
-        return degree;
-    }
-
-    /**
-     * Calculates initial energy of the structure.
-     *
-     * @return integer value of energy.
-     */
-    protected abstract int energy();
-
-    /**
-     * Get array list of neighbors for the node in this structure.
-     *
-     * @param node to find neighbors.
-     *
-     * @return list of neighbors.
-     */
-    protected abstract ArrayList<Node> getNeighbors(Node node);
-
-    /**
      * Retrieve a list of sample nodes from nodes in the structure.
      *
      * @param node to find sample for.
@@ -131,20 +114,4 @@ public abstract class Partitioner<S> {
      */
     protected abstract ArrayList<Node> getSample(Node node);
 
-    /**
-     * Swap color of two nodes.
-     *
-     * @param first  node.
-     * @param second node.
-     */
-    protected void swap(Node first, Node second) {
-        // increment number of swaps...
-        this.swaps++;
-
-        int tempColor = first.getColor();
-
-        first.setColor(second.getColor());
-
-        second.setColor(tempColor);
-    }
 }

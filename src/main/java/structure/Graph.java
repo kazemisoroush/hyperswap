@@ -32,6 +32,11 @@ public class Graph extends Structure<Node, Edge> {
     }
 
     @Override
+    public double energy() {
+        return 0;
+    }
+
+    @Override
     public String toString() {
         // list of nodes...
         String nodesString = Helpers.implode(this.nodes, ", ");
