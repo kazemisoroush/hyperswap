@@ -4,7 +4,7 @@ import main.Helpers;
 
 import java.util.ArrayList;
 
-public class Hypergraph extends Structure<Node, Hyperedge> {
+public class Hypergraph extends Structure<Hyperedge> {
 
     /**
      * Instantiate new hypergraph.

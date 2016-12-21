@@ -1,12 +1,10 @@
 package partitioner;
 
 import logger.Logger;
-import main.Helpers;
 import main.Main;
+import sampling.HypergraphSampler;
 import structure.Hypergraph;
 import structure.Node;
-
-import java.util.ArrayList;
 
 public class HyperSwap extends Partitioner<Hypergraph> {
 
@@ -17,6 +15,8 @@ public class HyperSwap extends Partitioner<Hypergraph> {
      */
     public HyperSwap(Hypergraph hypergraph) {
         super(hypergraph);
+
+        this.sampler = new HypergraphSampler(hypergraph);
     }
 
     @Override
@@ -28,7 +28,17 @@ public class HyperSwap extends Partitioner<Hypergraph> {
             Logger.log("Start Round #%s, Temp = %s", iteration, this.temperature);
 
             for (Node node : this.structure.getNodes()) {
-                this.sampleAndSwap(node);
+                if (node.sampleAndSwap(this.temperature, (HypergraphSampler) this.sampler)) {
+                    this.swaps++;
+                }
+            }
+
+            // update the temperature...
+            temperature -= Main.DELTA;
+
+            // limit the temperature...
+            if (temperature < 1) {
+                temperature = 1.0;
             }
 
             // hypergraph is cool enough...
@@ -38,24 +48,6 @@ public class HyperSwap extends Partitioner<Hypergraph> {
         }
 
         Logger.log("Number of Swaps: %s", this.swaps);
-    }
-
-    @Override
-    protected ArrayList<Node> getSample(Node node) {
-        // we have the graph...
-        Hypergraph hypergraph = this.structure;
-        ArrayList<Node> samples = new ArrayList<>();
-
-        // size of random sample is set inside main class...
-        ArrayList<Integer> indexes = Helpers.getRandomIntegers(0, hypergraph.getNodes().size() - 1, Main.SAMPLE_SIZE);
-
-        // add the samples...
-        for (int index : indexes) {
-            samples.add(hypergraph.getNodes().get(index));
-        }
-
-        // return the sample nodes...
-        return samples;
     }
 
 }

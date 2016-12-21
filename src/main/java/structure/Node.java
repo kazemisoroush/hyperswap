@@ -1,5 +1,8 @@
 package structure;
 
+import main.Main;
+import sampling.HypergraphSampler;
+
 import java.util.ArrayList;
 
 public class Node {
@@ -212,6 +215,69 @@ public class Node {
      */
     public int getDegree(int color) {
         return this.getNeighbors(color).size();
+    }
+
+    /**
+     * Sample and Swap function from ja-be-ja algorithm. This method uses hybrid partner selection policy. In this
+     * policy first the immediate neighbor nodes are selected (i.e., the local policy). If this selection fails to
+     * improve the pair-wise utility, the node is given another chance for improvement, by letting it to select nodes
+     * from its random sample.
+     */
+    public boolean sampleAndSwap(double temperature, HypergraphSampler sampler) {
+        // find partner from neighbors...
+        Node partner = this.findPartner(this.getNeighbors(), temperature);
+
+        boolean swapHappened = false;
+
+        // find partner from sample...
+        if (partner == null) {
+            partner = this.findPartner(sampler.getSample(this), temperature);
+        }
+
+        // do the swap if you found any partners...
+        if (partner != null) {
+            // swap node with it's partner and don't forget to increase the swaps counter...
+            this.swap(partner);
+            swapHappened = true;
+        }
+
+        return swapHappened;
+    }
+
+    /**
+     * Find best partner to swap from input candidate nodes for node p.
+     *
+     * @param candidates from which we need to extract best swap partner.
+     *
+     * @return best swap partner for the node or null.
+     */
+    private Node findPartner(ArrayList<Node> candidates, Double temperature) {
+        double highest = 0;
+
+        Node p = this;
+        Node bestPartner = null;
+
+        // test all candidates...
+        for (Node q : candidates) {
+            double dpp = p.energy();
+            double dqq = q.energy();
+
+            double before = Math.pow(dpp, Main.ALPHA) + Math.pow(dqq, Main.ALPHA);
+
+            double dpq = p.energy(q.getColor());
+            double dqp = q.energy(p.getColor());
+
+            double after = Math.pow(dpq, Main.ALPHA) + Math.pow(dqp, Main.ALPHA);
+
+            // the decision criterion...
+            if (after * temperature > before && after > highest) {
+                bestPartner = q;
+
+                highest = after;
+            }
+        }
+
+        return bestPartner;
     }
 
     /**

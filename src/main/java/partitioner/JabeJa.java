@@ -1,6 +1,5 @@
 package partitioner;
 
-import main.Helpers;
 import main.Main;
 import structure.Graph;
 import structure.Node;
@@ -25,7 +24,7 @@ public class JabeJa extends Partitioner<Graph> {
         // 2. temperature cool enough...
         for (int iteration = 1; iteration <= Main.ROUNDS || this.temperature == 1; iteration++) {
             for (Node node : this.structure.getNodes()) {
-                this.sampleAndSwap(node);
+                // this.sampleAndSwap(node);
             }
         }
     }
@@ -55,24 +54,6 @@ public class JabeJa extends Partitioner<Graph> {
         Graph graph = this.structure;
 
         return graph.getNeighbors(node);
-    }
-
-    @Override
-    protected ArrayList<Node> getSample(Node node) {
-        // we have the graph...
-        Graph graph = this.structure;
-        ArrayList<Node> samples = new ArrayList<>();
-
-        // size of random sample is always 10...
-        ArrayList<Integer> indexes = Helpers.getRandomIntegers(0, graph.getNodes().size() - 1, 10);
-
-        // add the samples...
-        for (int index : indexes) {
-            samples.add(graph.getNodes().get(index));
-        }
-
-        // return the sample nodes...
-        return samples;
     }
 
 }

@@ -2,9 +2,9 @@ package structure;
 
 import java.util.ArrayList;
 
-public abstract class Structure<N, E> {
+public abstract class Structure<E> {
 
-    protected ArrayList<N> nodes;
+    protected ArrayList<Node> nodes;
 
     protected ArrayList<E> edges;
 
@@ -44,14 +44,14 @@ public abstract class Structure<N, E> {
      *
      * @return size of nodes.
      */
-    public abstract N addNode(N node);
+    public abstract Node addNode(Node node);
 
     /**
      * Getter for nodes of structure.
      *
      * @return list of nodes.
      */
-    public ArrayList<N> getNodes() {
+    public ArrayList<Node> getNodes() {
         return this.nodes;
     }
 
@@ -62,7 +62,7 @@ public abstract class Structure<N, E> {
      *
      * @return list of neighbors.
      */
-    public abstract ArrayList<N> getNeighbors(Node node);
+    public abstract ArrayList<Node> getNeighbors(Node node);
 
     /**
      * Add a edge to the graph.
@@ -80,7 +80,7 @@ public abstract class Structure<N, E> {
      *
      * @return boolean value of the check.
      */
-    public abstract boolean hasNode(N node);
+    public abstract boolean hasNode(Node node);
 
     /**
      * Check if the structure contains this edge type. Each structure must have this checker method.

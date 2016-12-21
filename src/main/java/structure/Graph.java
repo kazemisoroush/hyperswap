@@ -4,7 +4,7 @@ import main.Helpers;
 
 import java.util.ArrayList;
 
-public class Graph extends Structure<Node, Edge> {
+public class Graph extends Structure<Edge> {
 
     @Override
     public Node addNode(Node node) {
