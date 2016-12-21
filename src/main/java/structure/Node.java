@@ -118,7 +118,7 @@ public class Node {
                 }
             }
 
-            energy += dissimilarity / (edge.getNodes().size() - 1);
+            energy += dissimilarity; // / (edge.getNodes().size() - 1);
         }
 
         return energy;
@@ -243,13 +243,11 @@ public class Node {
      * @param temperature is simulated annealing cooling factor.
      * @param sampler     object which samples nodes from structure.
      *
-     * @return true if any swapping happened.
+     * @return partner node or null.
      */
-    public boolean sampleAndSwap(double temperature, HypergraphSampler sampler) {
+    public Node sampleAndSwap(double temperature, HypergraphSampler sampler) {
         // find partner from neighbors...
         Node partner = this.findPartner(this.getNeighbors(), temperature);
-
-        boolean swapHappened = false;
 
         // find partner from sample...
         if (partner == null) {
@@ -260,10 +258,11 @@ public class Node {
         if (partner != null) {
             // swap node with it's partner and don't forget to increase the swaps counter...
             this.swap(partner);
-            swapHappened = true;
         }
 
-        return swapHappened;
+        // this can be null...
+        // if the partner equals null then we can say no swap happens...
+        return partner;
     }
 
     /**
@@ -273,29 +272,29 @@ public class Node {
      *
      * @return best swap partner for the node or null.
      */
-    private Node findPartner(ArrayList<Node> candidates, Double temperature) {
-        double highest = 0;
+    private Node findPartner(ArrayList<Node> candidates, double temperature) {
+        double highestBenefit = 0;
 
         Node p = this;
         Node bestPartner = null;
 
         // test all candidates...
         for (Node q : candidates) {
+            // calculate the before swap benefit...
             double dpp = p.energy();
             double dqq = q.energy();
+            double oldBenefit = Math.pow(dpp, Main.ALPHA) + Math.pow(dqq, Main.ALPHA);
 
-            double before = Math.pow(dpp, Main.ALPHA) + Math.pow(dqq, Main.ALPHA);
-
+            // calculate the after swap benefit...
             double dpq = p.energy(q.getColor());
             double dqp = q.energy(p.getColor());
-
-            double after = Math.pow(dpq, Main.ALPHA) + Math.pow(dqp, Main.ALPHA);
+            double newBenefit = Math.pow(dpq, Main.ALPHA) + Math.pow(dqp, Main.ALPHA);
 
             // the decision criterion...
-            if (after * temperature > before && after > highest) {
+            if (newBenefit * temperature > oldBenefit && newBenefit > highestBenefit) {
                 bestPartner = q;
 
-                highest = after;
+                highestBenefit = newBenefit;
             }
         }
 
@@ -309,6 +308,6 @@ public class Node {
      */
     @Override
     public String toString() {
-        return String.format("[%s c=%s e=%s]", this.getId(), this.getColor(), this.energy());
+        return String.format("[%s c=%s e=%.2f]", this.getId(), this.getColor(), this.energy());
     }
 }

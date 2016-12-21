@@ -8,9 +8,9 @@ import structure.Hypergraph;
 public class Main {
 
     /**
-     * Size of uniform sample nodes gathered from the structure.
+     * Size of uniform sample gathered from the structure.
      */
-    public static final int SAMPLE_SIZE = 5;
+    public static final int SAMPLE_SIZE = 1;
 
     /**
      * Each line starting with these strings assumed as comment line.
@@ -50,7 +50,7 @@ public class Main {
     /**
      * Parameter of energy in ja-be-ja algorithm.
      */
-    public static double ALPHA = 1;
+    public static double ALPHA = 2;
 
     /**
      * Run the project.

@@ -125,6 +125,6 @@ public class Hypergraph extends Structure<Hyperedge> {
         String nodeString = Helpers.implode(this.nodes, ", ");
         String edgeString = Helpers.implode(this.edges, ", ");
 
-        return String.format("Hypergraph: |V| = %s, |E| = %s, Energy = %s \n     Nodes: %s \nHyperedges: %s", this.nodes.size(), this.edges.size(), this.energy(), nodeString, edgeString);
+        return String.format("Hypergraph: |V| = %s, |E| = %s, Energy = %.2f \n     Nodes: %s \nHyperedges: %s", this.nodes.size(), this.edges.size(), this.energy(), nodeString, edgeString);
     }
 }
